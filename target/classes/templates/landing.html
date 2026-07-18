@@ -11,16 +11,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0f1117;
-      --bg2:       #161b27;
-      --bg3:       #0a0d13;
-      --cyan:      #00D4AA;
+      --bg:        #0d0f14;
+      --bg2:       #13171f;
+      --bg3:       #0b0d11;
+      --cyan:      #f97316;
       --blue:      #7C4DFF;
       --emerald:   #00D4AA;
       --red:       #F87171;
       --text:      #E8EAF6;
       --muted:     #5f6a8a;
-      --border:    rgba(255,255,255,0.08);
+      --border:    rgba(255,255,255,0.07);
     }
 
     html { scroll-behavior: smooth; }
@@ -35,17 +35,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    ::selection { background: rgba(0,212,170,.25); }
+    ::selection { background: rgba(249,115,22,.25); }
 
     /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg3); }
-    ::-webkit-scrollbar-thumb { background: rgba(0,212,170,.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(249,115,22,.3); border-radius: 4px; }
 
     /* ═══════════════════════════════════════ NAV ══════════════════════════════════════ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(15,17,23,.82);
+      background: rgba(13,15,20,.82);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
     }
@@ -61,7 +61,7 @@
     }
     .logo-icon {
       width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      background: linear-gradient(135deg, #f97316, #7c4dff);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -94,15 +94,15 @@
 
     .btn-primary {
       padding: 8px 20px; border-radius: 999px;
-      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      background: linear-gradient(90deg, #f97316, #7c4dff);
       border: none; cursor: pointer;
       color: #fff; font-size: 14px; font-weight: 700;
       font-family: inherit;
-      box-shadow: 0 0 0 rgba(0,212,170,0);
+      box-shadow: 0 0 0 rgba(249,115,22,0);
       transition: box-shadow .3s, transform .2s;
     }
     .btn-primary:hover {
-      box-shadow: 0 0 24px rgba(0,212,170,.45);
+      box-shadow: 0 0 24px rgba(249,115,22,.45);
       transform: scale(1.03);
     }
 
@@ -147,7 +147,7 @@
       color: var(--text);
     }
     .mob-signup {
-      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      background: linear-gradient(90deg, #f97316, #7c4dff);
       border: none; color: #fff;
     }
 
@@ -167,7 +167,7 @@
       position: absolute; top: -60px; left: 50%;
       transform: translateX(-50%);
       width: 900px; height: 520px;
-      background: radial-gradient(ellipse at center, rgba(0,212,170,.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, rgba(249,115,22,.12) 0%, transparent 70%);
       pointer-events: none;
       animation: pulse 6s ease-in-out infinite;
     }
@@ -179,8 +179,8 @@
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,212,170,.08);
-      border: 1px solid rgba(0,212,170,.2);
+      background: rgba(249,115,22,.08);
+      border: 1px solid rgba(249,115,22,.2);
       border-radius: 999px;
       padding: 6px 16px;
       font-size: 12px; font-weight: 700; color: var(--cyan);
@@ -205,7 +205,7 @@
       animation: fadeUp .6s .1s ease both;
     }
     .gradient-text {
-      background: linear-gradient(90deg, var(--cyan) 0%, #6EE7B7 100%);
+      background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
@@ -228,13 +228,13 @@
       cursor: pointer; transition: transform .2s, box-shadow .2s;
     }
     .btn-lg.primary {
-      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      background: linear-gradient(90deg, #f97316, #7c4dff);
       border: none; color: #fff;
-      box-shadow: 0 8px 32px rgba(0,212,170,.2);
+      box-shadow: 0 8px 32px rgba(249,115,22,.2);
     }
     .btn-lg.primary:hover {
       transform: scale(1.04);
-      box-shadow: 0 12px 40px rgba(0,212,170,.4);
+      box-shadow: 0 12px 40px rgba(249,115,22,.4);
     }
     .btn-lg.secondary {
       background: rgba(255,255,255,.05);
@@ -289,8 +289,8 @@
     }
     .card:hover {
       transform: translateY(-10px);
-      border-color: rgba(0,212,170,.35);
-      box-shadow: 0 16px 48px rgba(0,212,170,.08);
+      border-color: rgba(249,115,22,.35);
+      box-shadow: 0 16px 48px rgba(249,115,22,.08);
     }
     .card-icon {
       width: 52px; height: 52px; border-radius: 14px;
@@ -312,7 +312,7 @@
       transition: background .2s;
     }
     .stat-cell:last-child { border-right: none; }
-    .stat-cell:hover { background: rgba(0,212,170,.04); }
+    .stat-cell:hover { background: rgba(249,115,22,.04); }
     .stat-num {
       font-family: 'Syne', sans-serif;
       font-size: clamp(32px,3.5vw,48px);
@@ -359,7 +359,7 @@
     }
     .cta-glow {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(0,212,170,.05) 50%, transparent 100%);
+      background: linear-gradient(180deg, transparent 0%, rgba(249,115,22,.05) 50%, transparent 100%);
       pointer-events: none;
     }
     .cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
@@ -374,16 +374,16 @@
     .btn-cta {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 16px 40px; border-radius: 20px;
-      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      background: linear-gradient(90deg, #f97316, #7c4dff);
       border: none; color: #fff;
       font-family: inherit; font-size: 17px; font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 12px 48px rgba(0,212,170,.35);
+      box-shadow: 0 12px 48px rgba(249,115,22,.35);
       transition: transform .2s, box-shadow .2s;
     }
     .btn-cta:hover {
       transform: scale(1.05);
-      box-shadow: 0 20px 64px rgba(0,212,170,.55);
+      box-shadow: 0 20px 64px rgba(249,115,22,.55);
     }
 
     /* ═════════════════════════════════════ FOOTER ══════════════════════════════════════ */
@@ -550,14 +550,14 @@
         <div class="qf-desc">Your assets protected</div>
       </div>
       <div class="qf-item">
-        <div class="qf-icon" style="color:#00D4AA">
+        <div class="qf-icon" style="color:#f97316">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="4" height="18" rx="1"/><rect x="9" y="8" width="4" height="13" rx="1"/><rect x="16" y="5" width="4" height="16" rx="1"/></svg>
         </div>
         <div class="qf-title">Advanced Charts</div>
         <div class="qf-desc">Professional tools</div>
       </div>
       <div class="qf-item">
-        <div class="qf-icon" style="color:#00D4AA">
+        <div class="qf-icon" style="color:#f97316">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div class="qf-title">24/7 Support</div>
@@ -598,7 +598,7 @@
         <p>Bank-level encryption and full regulatory compliance to keep your funds and personal data safe at all times.</p>
       </div>
       <div class="card fade-up" style="transition-delay:.2s">
-        <div class="card-icon" style="background:rgba(0,212,170,.1); color:#00D4AA">
+        <div class="card-icon" style="background:rgba(249,115,22,.1); color:#f97316">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg>
         </div>
         <h3>Low Fees</h3>
@@ -735,7 +735,7 @@ window.addEventListener('scroll', () => {
 /* ── Ticker ── */
 let COINS = [];
 
-const fallbackIcon = sym => `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><rect width='48' height='48' rx='24' fill='%231a2236'/><text x='24' y='31' text-anchor='middle' fill='%2322d3ee' font-size='16' font-family='sans-serif' font-weight='bold'>${sym[0]}</text></svg>`;
+const fallbackIcon = sym => `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><rect width='48' height='48' rx='24' fill='%231a2236'/><text x='24' y='31' text-anchor='middle' fill='%23f97316' font-size='16' font-family='sans-serif' font-weight='bold'>${sym[0]}</text></svg>`;
 
 function buildTicker() {
   const track = document.getElementById('tickerTrack');

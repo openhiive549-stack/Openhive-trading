@@ -11,20 +11,20 @@
     rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117;
-      --card: #161b27;
-      --card-h: #1e2436;
-      --border: rgba(255, 255, 255, .08);
+      --bg: #0d0f14;
+      --card: #13171f;
+      --card-h: #1a1f2e;
+      --border: rgba(255,255,255,.07);
       --text: #e8eaf6;
       --muted: #5f6a8a;
-      --cyan: #00d4aa;
+      --cyan: #f97316;
       --blue: #7c4dff;
       --emerald: #00d4aa;
       --purple: #b47aff;
       --red: #f87171;
       --yellow: #fbbf24;
       --sidebar-w: 230px;
-      --header-h: 60px;
+      --header-h: 54px;
     }
 
     * {
@@ -50,8 +50,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(34, 211, 238, .025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, .025) 1px, transparent 1px);
+        linear-gradient(rgba(249,115,22,.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249,115,22,.01) 1px, transparent 1px);
       background-size: 44px 44px;
       pointer-events: none;
       z-index: 0;
@@ -65,7 +65,7 @@
       left: 0;
       width: var(--sidebar-w);
       height: 100vh;
-      background: rgba(8, 12, 20, .97);
+      background: rgba(11,13,17,.97);
       border-right: 1px solid var(--border);
       backdrop-filter: blur(24px);
       flex-direction: column;
@@ -115,9 +115,9 @@
     }
 
     .sidebar-item.active {
-      background: rgba(34, 211, 238, .08);
+      background: rgba(249,115,22,.08);
       color: var(--cyan);
-      border-color: rgba(34, 211, 238, .14);
+      border-color: rgba(249,115,22,.14);
     }
 
     .sidebar-bottom {
@@ -175,7 +175,7 @@
       justify-content: space-between;
       gap: 12px;
       padding: 0 18px;
-      background: rgba(8, 12, 20, .9);
+      background: rgba(13,15,20,.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
@@ -237,7 +237,7 @@
     }
 
     .icon-btn:hover {
-      border-color: rgba(34, 211, 238, .3);
+      border-color: rgba(249,115,22,.3);
       background: var(--card-h);
     }
 
@@ -281,8 +281,8 @@
 
     /* ── HERO BANNER ── */
     .referral-hero {
-      background: linear-gradient(135deg, rgba(34, 211, 238, .1) 0%, rgba(59, 130, 246, .08) 50%, rgba(167, 139, 250, .06) 100%);
-      border: 1px solid rgba(34, 211, 238, .15);
+      background: linear-gradient(135deg, rgba(249,115,22,.1) 0%, rgba(124,77,255,.08) 50%, rgba(124,77,255,.05) 100%);
+      border: 1px solid rgba(249,115,22,.15);
       border-radius: 24px;
       padding: 28px 24px;
       margin-bottom: 24px;
@@ -298,7 +298,7 @@
       width: 200px;
       height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(34, 211, 238, .08), transparent 70%);
+      background: radial-gradient(circle, rgba(249,115,22,.08), transparent 70%);
       pointer-events: none;
     }
 
@@ -348,7 +348,7 @@
       align-items: center;
       gap: 0;
       background: rgba(0, 0, 0, .3);
-      border: 1px solid rgba(34, 211, 238, .2);
+      border: 1px solid rgba(249,115,22,.2);
       border-radius: 14px;
       overflow: hidden;
       flex: 1;
@@ -368,7 +368,7 @@
     .copy-btn {
       padding: 12px 18px;
       background: var(--cyan);
-      color: #0f1117;
+      color: #0d0f14;
       font-weight: 700;
       font-size: 13px;
       border: none;
@@ -410,7 +410,7 @@
 
     .share-btn:hover {
       background: var(--card-h);
-      border-color: rgba(34, 211, 238, .2);
+      border-color: rgba(249,115,22,.2);
     }
 
     /* ── STATS GRID ── */
@@ -509,7 +509,7 @@
     .tier-bar-fill {
       height: 100%;
       border-radius: 99px;
-      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      background: linear-gradient(90deg, #f97316, var(--purple));
       transition: width .8s cubic-bezier(.4, 0, .2, 1);
     }
 
@@ -781,7 +781,7 @@
     .mini-bar {
       width: 100%;
       border-radius: 4px 4px 0 0;
-      background: linear-gradient(180deg, var(--cyan), rgba(34, 211, 238, .3));
+      background: linear-gradient(180deg, #f97316, rgba(249,115,22,.3));
       transition: height .5s ease;
     }
 
@@ -814,8 +814,8 @@
       height: 40px;
       border-radius: 12px;
       flex-shrink: 0;
-      background: rgba(34, 211, 238, .08);
-      border: 1px solid rgba(34, 211, 238, .14);
+      background: rgba(249,115,22,.08);
+      border: 1px solid rgba(249,115,22,.14);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -843,7 +843,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(8, 12, 20, .96);
+      background: rgba(13,15,20,.96);
       backdrop-filter: blur(22px);
       border-top: 1px solid var(--border);
       display: flex;
@@ -879,7 +879,7 @@
       left: 50%;
       transform: translateX(-50%) translateY(10px);
       background: var(--emerald);
-      color: #0f1117;
+      color: #0d0f14;
       font-weight: 700;
       font-size: 13px;
       padding: 10px 22px;
@@ -1156,7 +1156,7 @@
       <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon" style="background:rgba(0,212,170,.08)">
+          <div class="stat-icon" style="background:rgba(249,115,22,.08)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />

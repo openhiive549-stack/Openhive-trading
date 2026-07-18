@@ -1,31 +1,31 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Trade – Openhive Crypto</title>
+  <title>Trade � Openhive Crypto</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117;
-      --surface: #161b27;
-      --surface-h: #1e2436;
-      --border: rgba(255, 255, 255, .08);
+      --bg: #0d0f14;
+      --surface: #13171f;
+      --surface-h: #1a1f2e;
+      --border: rgba(255, 255, 255, .07);
       --text: #e8eaf6;
       --muted: #5f6a8a;
       --dim: #3d4655;
-      --cyan: #00d4aa;
+      --cyan: #f97316;
       --blue: #7c4dff;
       --emerald: #00d4aa;
       --red: #f87171;
       --yellow: #fbbf24;
       --purple: #b47aff;
       --sidebar-w: 230px;
-      --header-h: 60px;
+      --header-h: 54px;
     }
 
     *,
@@ -54,14 +54,14 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(34, 211, 238, .018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, .018) 1px, transparent 1px);
+        linear-gradient(rgba(249, 115, 22, .01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249, 115, 22, .01) 1px, transparent 1px);
       background-size: 48px 48px;
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ── SIDEBAR ── */
+    /* -- SIDEBAR -- */
     .sidebar {
       display: none;
       position: fixed;
@@ -69,7 +69,7 @@
       left: 0;
       width: var(--sidebar-w);
       height: 100vh;
-      background: rgba(8, 12, 20, .97);
+      background: rgba(13, 15, 20, .97);
       border-right: 1px solid var(--border);
       backdrop-filter: blur(24px);
       flex-direction: column;
@@ -118,9 +118,9 @@
     }
 
     .sidebar-item.active {
-      background: rgba(34, 211, 238, .08);
+      background: rgba(249, 115, 22, .08);
       color: var(--cyan);
-      border-color: rgba(34, 211, 238, .14);
+      border-color: rgba(249, 115, 22, .14);
     }
 
     .sidebar-bottom {
@@ -173,7 +173,7 @@
       margin-top: 1px;
     }
 
-    /* ── HEADER ── */
+    /* -- HEADER -- */
     .app-header {
       position: sticky;
       top: 0;
@@ -184,7 +184,7 @@
       justify-content: space-between;
       gap: 12px;
       padding: 0 18px;
-      background: rgba(8, 12, 20, .9);
+      background: rgba(13, 15, 20, .9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
@@ -225,7 +225,7 @@
     }
 
     .header-search-bar:hover {
-      border-color: rgba(34, 211, 238, .2);
+      border-color: rgba(249, 115, 22, .2);
     }
 
     .header-actions {
@@ -250,7 +250,7 @@
     }
 
     .icon-btn:hover {
-      border-color: rgba(34, 211, 238, .3);
+      border-color: rgba(249, 115, 22, .3);
       background: var(--surface-h);
     }
 
@@ -281,7 +281,7 @@
       justify-content: center;
     }
 
-    /* ── LAYOUT ── */
+    /* -- LAYOUT -- */
     .layout {
       position: relative;
       z-index: 1;
@@ -291,7 +291,7 @@
       padding: 20px 14px 88px;
     }
 
-    /* ── PAIR SELECTOR BAR ── */
+    /* -- PAIR SELECTOR BAR -- */
     .pair-bar {
       display: flex;
       align-items: center;
@@ -314,7 +314,7 @@
     }
 
     .pair-select:hover {
-      border-color: rgba(34, 211, 238, .25);
+      border-color: rgba(249, 115, 22, .25);
     }
 
     .pair-icon {
@@ -396,14 +396,14 @@
       flex-shrink: 0;
     }
 
-    /* ── MAIN TRADE GRID ── */
+    /* -- MAIN TRADE GRID -- */
     .trade-grid {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    /* ── CHART CARD ── */
+    /* -- CHART CARD -- */
     .chart-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -445,7 +445,7 @@
     }
 
     .tf-btn.active {
-      background: rgba(34, 211, 238, .12);
+      background: rgba(249, 115, 22, .12);
       color: var(--cyan);
     }
 
@@ -479,7 +479,7 @@
       color: var(--text);
     }
 
-    /* ── TIMEFRAME BAR ── */
+    /* -- TIMEFRAME BAR -- */
     .timeframe-bar {
       display: flex;
       align-items: center;
@@ -518,10 +518,10 @@
     }
 
     .timeframe-bar .tf-btn.active {
-      background: rgba(34, 211, 238, .13);
+      background: rgba(249, 115, 22, .13);
       color: var(--cyan);
-      border-color: rgba(34, 211, 238, .28);
-      box-shadow: 0 0 10px rgba(34, 211, 238, .12);
+      border-color: rgba(249, 115, 22, .28);
+      box-shadow: 0 0 10px rgba(249, 115, 22, .12);
     }
 
     .chart-area {
@@ -564,7 +564,7 @@
       font-size: 9px;
       color: var(--dim);
       font-weight: 600;
-      background: rgba(8, 12, 20, .7);
+      background: rgba(13, 15, 20, .7);
       padding: 1px 4px;
       border-radius: 3px;
     }
@@ -638,7 +638,7 @@
       min-height: 2px;
     }
 
-    /* ── ORDER BOOK ── */
+    /* -- ORDER BOOK -- */
     .ob-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -762,7 +762,7 @@
       align-items: center;
       gap: 8px;
       padding: 8px 18px;
-      background: rgba(34, 211, 238, .03);
+      background: rgba(249, 115, 22, .03);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
@@ -789,7 +789,7 @@
       margin-left: auto;
     }
 
-    /* ── ORDER FORM ── */
+    /* -- ORDER FORM -- */
     .form-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -889,7 +889,7 @@
     }
 
     .input-wrap:focus-within {
-      border-color: rgba(34, 211, 238, .3);
+      border-color: rgba(249, 115, 22, .3);
     }
 
     .input-wrap input {
@@ -921,7 +921,7 @@
       padding: 6px 12px;
       margin: 6px;
       border-radius: 8px;
-      background: rgba(34, 211, 238, .08);
+      background: rgba(249, 115, 22, .08);
       color: var(--cyan);
       font-size: 11px;
       font-weight: 800;
@@ -932,7 +932,7 @@
     }
 
     .input-max:hover {
-      background: rgba(34, 211, 238, .15);
+      background: rgba(249, 115, 22, .15);
     }
 
     /* slider */
@@ -957,7 +957,7 @@
       border-radius: 50%;
       background: var(--cyan);
       border: 2px solid var(--bg);
-      box-shadow: 0 0 8px rgba(34, 211, 238, .4);
+      box-shadow: 0 0 8px rgba(249, 115, 22, .4);
       cursor: pointer;
     }
 
@@ -1051,7 +1051,7 @@
       box-shadow: 0 0 36px rgba(248, 113, 113, .38);
     }
 
-    /* ── OPEN ORDERS / TRADES ── */
+    /* -- OPEN ORDERS / TRADES -- */
     .trades-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1204,7 +1204,7 @@
       background: rgba(248, 113, 113, .22);
     }
 
-    /* ── RECENT TRADES ── */
+    /* -- RECENT TRADES -- */
     .rt-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -1236,7 +1236,7 @@
       text-align: right;
     }
 
-    /* ── EMPTY ORDERS ── */
+    /* -- EMPTY ORDERS -- */
     .empty-orders {
       padding: 40px 20px;
       text-align: center;
@@ -1244,13 +1244,13 @@
       font-size: 13px;
     }
 
-    /* ── BOTTOM NAV ── */
+    /* -- BOTTOM NAV -- */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(8, 12, 20, .96);
+      background: rgba(13, 15, 20, .96);
       backdrop-filter: blur(22px);
       border-top: 1px solid var(--border);
       display: flex;
@@ -1283,14 +1283,14 @@
       color: var(--text);
     }
 
-    /* ── MODAL ── */
+    /* -- MODAL -- */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(8, 12, 20, .8);
+      background: rgba(13, 15, 20, .8);
       backdrop-filter: blur(8px);
       z-index: 300;
       display: none;
@@ -1379,8 +1379,8 @@
     }
 
     .coin-sel-btn.active {
-      background: rgba(34, 211, 238, .08);
-      border-color: rgba(34, 211, 238, .2);
+      background: rgba(249, 115, 22, .08);
+      border-color: rgba(249, 115, 22, .2);
     }
 
     .cs-icon {
@@ -1413,7 +1413,7 @@
       text-align: right;
     }
 
-    /* ── ANIMATIONS ── */
+    /* -- ANIMATIONS -- */
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -1479,7 +1479,7 @@
       animation: flashRed .5s ease;
     }
 
-    /* ── RESPONSIVE ── */
+    /* -- RESPONSIVE -- */
     @media (min-width: 640px) {
       .main-content {
         padding: 22px 20px 88px;
@@ -1490,7 +1490,7 @@
       }
     }
 
-    /* ── SMALL PHONES (< 480px) ── */
+    /* -- SMALL PHONES (< 480px) -- */
     @media (max-width: 480px) {
       .main-content { padding: 14px 10px 88px; }
       .pair-bar { gap: 8px; }
@@ -1593,7 +1593,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: rgba(8, 12, 20, .97);
+      background: rgba(13, 15, 20, .97);
       backdrop-filter: blur(20px);
       display: flex;
       align-items: center;
@@ -1688,12 +1688,12 @@
   <style>
     .mode-toggle-bar{display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:5px;margin-bottom:18px;width:fit-content;}
     .mode-btn{padding:8px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Inter',sans-serif;transition:all .2s;}
-    .mode-btn.active{background:linear-gradient(135deg,#1a2d40,#0f2030);color:var(--cyan);box-shadow:0 0 16px rgba(0,212,170,.15);}
+    .mode-btn.active{background:linear-gradient(135deg,#2d1a0a,#1a0f05);color:var(--cyan);box-shadow:0 0 16px rgba(249,115,22,.18);}
     .mode-btn.bo-mode.active{background:linear-gradient(135deg,#1a1060,#2d0d50);color:#c084fc;box-shadow:0 0 16px rgba(192,132,252,.2);}
     .bo-panel{display:none;} .bo-panel.visible{display:block;} .spot-panel.hidden{display:none;}
     .bo-grid{display:flex;flex-direction:column;gap:16px;}
     @media(min-width:1024px){.bo-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;}.bo-chart-col{grid-column:1/2;grid-row:1/3;}.bo-form-col{grid-column:2/3;grid-row:1/3;display:flex;flex-direction:column;gap:16px;}}
-    /* Active Trade Card — fixed centered overlay */
+    /* Active Trade Card � fixed centered overlay */
     .bo-active-banner{
       display:none;
       position:fixed;
@@ -1707,7 +1707,7 @@
     }
     .bo-active-banner.show{display:flex;}
     .bo-active-banner-card{
-      background:var(--surface,#161b27);
+      background:var(--surface,#13171f);
       border:1px solid var(--border);
       border-radius:18px;
       padding:18px 16px 20px;
@@ -1736,7 +1736,7 @@
     .bo-timer-ring-wrap{position:relative;width:90px;height:90px;flex-shrink:0;}
     .bo-timer-ring-wrap svg{transform:rotate(-90deg);}
     .bo-timer-track{fill:none;stroke:rgba(255,255,255,.08);stroke-width:6;}
-    .bo-timer-arc{fill:none;stroke:#00d4aa;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .95s linear;}
+    .bo-timer-arc{fill:none;stroke:#f97316;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .95s linear;}
     .bo-timer-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
     .bo-timer-seconds{font-size:22px;font-weight:800;color:var(--text);font-family:'Inter',sans-serif;line-height:1.1;}
     .bo-timer-label{font-size:10px;color:var(--muted);font-weight:500;font-family:'Inter',sans-serif;}
@@ -1777,9 +1777,9 @@
     .bo-call-btn:disabled,.bo-put-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
     .bo-btn-icon{font-size:22px;line-height:1;} .bo-btn-sub{font-size:10px;opacity:.8;font-weight:600;}
     /* Result overlay */
-    .bo-result-overlay{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:rgba(15,17,23,.8);backdrop-filter:blur(14px);}
+    .bo-result-overlay{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:rgba(13,15,20,.8);backdrop-filter:blur(14px);}
     .bo-result-overlay.show{display:flex;}
-    .bo-result-card{background:var(--card,#161b27);border-radius:20px;padding:0;max-width:360px;width:92%;animation:boResultPop .4s cubic-bezier(.34,1.56,.64,1) forwards;overflow:hidden;}
+    .bo-result-card{background:var(--card,#13171f);border-radius:20px;padding:0;max-width:360px;width:92%;animation:boResultPop .4s cubic-bezier(.34,1.56,.64,1) forwards;overflow:hidden;}
     @keyframes boResultPop{from{opacity:0;transform:scale(.7);}to{opacity:1;transform:scale(1);}}
     .bo-result-card.won{border:1.5px solid rgba(34,197,94,.35);}
     .bo-result-card.lost{border:1.5px solid rgba(239,68,68,.3);}
@@ -1929,14 +1929,14 @@
       Openhive Crypto
     </div>
     <div class="header-greeting"
-      th:text="'Good morning, ' + ${user.fullName != null ? user.fullName : 'Trader'} + ' 👋'">Trade</div>
+      th:text="'Good morning, ' + ${user.fullName != null ? user.fullName : 'Trader'} + ' ??'">Trade</div>
     <div style="flex:1;display:flex;justify-content:center;">
       <div class="header-search-bar">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
-        Search pairs…
+        Search pairs�
       </div>
     </div>
     <div class="header-actions">
@@ -1961,7 +1961,7 @@
     <main class="main-content">
 
 
-      <!-- â•â• MODE TOGGLE â•â• -->
+      <!-- ══ MODE TOGGLE ══ -->
       <div class="mode-toggle-bar fade-up d1">
         <button type="button" class="mode-btn active" id="spotModeBtn" onclick="setMode('spot',this)">
           &#9889; Spot Trading
@@ -1975,7 +1975,7 @@
       <div class="pair-bar fade-up d1">
         <div class="pair-select" onclick="openPairModal()">
           <img id="activeCoinIcon" class="pair-icon" src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC"
-            onerror="this.style.background='#00d4aa'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='₿'; this.style.fontSize='18px'; this.style.color='#f7931a';">
+            onerror="this.style.background='#f97316'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='?'; this.style.fontSize='18px'; this.style.color='#fff';">
           <div>
             <div class="pair-label" id="activePairLabel">BTC / USDT</div>
             <div class="pair-sub" id="activeCoinName">Bitcoin Spot</div>
@@ -1987,7 +1987,7 @@
         </div>
         <div class="price-ticker-bar">
           <div>
-            <div class="ptb-price" id="livePrice">—</div>
+            <div class="ptb-price" id="livePrice">�</div>
             <div class="ptb-change" id="liveChange" style="color:var(--emerald);">+5.42%</div>
           </div>
           <div class="divider-v"></div>
@@ -2065,7 +2065,7 @@
             </div>
             <div class="ob-scroll" id="asksContainer"></div>
             <div class="ob-spread">
-              <div class="ob-spread-price" id="obMidPrice">—</div>
+              <div class="ob-spread-price" id="obMidPrice">�</div>
               <div class="ob-spread-badge" id="obSpread">Spread 0.01%</div>
               <div class="ob-spread-lbl">Mid Price</div>
             </div>
@@ -2117,7 +2117,7 @@
 
               <div class="avail-row">
                 <span class="avail-lbl">Available</span>
-                <span class="avail-val" id="availVal">—</span>
+                <span class="avail-val" id="availVal">�</span>
               </div>
 
               <div class="total-row">
@@ -2150,7 +2150,7 @@
 
     
 
-    <!-- â•â• BINARY OPTIONS PANEL â•â• -->
+    <!-- ══ BINARY OPTIONS PANEL ══ -->
     <div class="bo-panel" id="boPanel">
 
       <!-- Active Trade Card -->
@@ -2487,7 +2487,7 @@
       }
     }
 
-    /* ─── STATE ─── */
+    /* --- STATE --- */
     let activeCoinId = 'bitcoin';
     let activeCoinSym = 'BTC';
     let price = 68520.00;
@@ -2555,7 +2555,7 @@
       updateAvailBase();
     }
 
-    /* ─── MODAL & PAIR LOGIC ─── */
+    /* --- MODAL & PAIR LOGIC --- */
     function openPairModal() {
       const list = document.getElementById('coinList');
       if (!COINS.length) {
@@ -2651,7 +2651,7 @@
         "style": "1",
         "locale": "en",
         "enable_publishing": false,
-        "backgroundColor": "#161b27",
+        "backgroundColor": "#0d0f14",
         "gridColor": "rgba(255, 255, 255, 0.06)",
         "hide_top_toolbar": true,
         "hide_legend": true,
@@ -2694,7 +2694,7 @@
       if (ev.persisted) resyncBalancesFromApi();
     });
 
-    /* ─── RESPONSIVE ─── */
+    /* --- RESPONSIVE --- */
     function applyResponsive() {
       const wide = window.innerWidth >= 640;
       document.querySelectorAll('.divider-extra').forEach(el => {
@@ -2704,10 +2704,10 @@
     applyResponsive();
     window.addEventListener('resize', applyResponsive);
 
-    /* ─── CHART (Replaced with TradingView) ─── */
+    /* --- CHART (Replaced with TradingView) --- */
     // GenCandles removed since we use TradingView
 
-    /* ─── ORDER BOOK ─── */
+    /* --- ORDER BOOK --- */
     async function fetchBinanceBook() {
       try {
         const sym = activeCoinSym.toUpperCase();
@@ -2795,7 +2795,7 @@
       renderBook();
     }
 
-    /* ─── ORDER FORM ─── */
+    /* --- ORDER FORM --- */
     function effectivePriceForSizing() {
       const pIn = parseFloat(document.getElementById('priceInput').value);
       let p = orderType === 'market' || !Number.isFinite(pIn) || pIn <= 0 ? price : pIn;
@@ -2901,7 +2901,7 @@
     function relTime(dateStr) {
       const s = String(dateStr);
       const t = new Date(s.endsWith('Z') ? s : s + 'Z');
-      if (Number.isNaN(t.getTime())) return '—';
+      if (Number.isNaN(t.getTime())) return '�';
       const diff = Date.now() - t.getTime();
       const m = Math.floor(diff / 60000);
       if (m < 60) return m + 'm ago';
@@ -2988,7 +2988,7 @@
             return;
           }
           if (data.success) {
-            btn.textContent = '✓ Order filled';
+            btn.textContent = '? Order filled';
             setTimeout(() => {
               btn.textContent = origText;
               btn.disabled = false;
@@ -3066,7 +3066,7 @@
         <div class="th">Time</div>
       </div>` +
           history.map(o => {
-            const stLab = o.status ? o.status.charAt(0).toUpperCase() + o.status.slice(1) : '—';
+            const stLab = o.status ? o.status.charAt(0).toUpperCase() + o.status.slice(1) : '�';
             return `<div class="trade-row" style="grid-template-columns: 1.3fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;">
         <div><div class="tr-pair">${esc(o.pair)}</div><span class="tr-type-badge ${o.type === 'buy' ? 'tr-buy' : 'tr-sell'}">${esc(o.type.toUpperCase())}</span> <span style="font-size:10px;color:var(--muted);">${esc(String(o.orderType != null ? o.orderType : ''))}</span></div>
         <div class="tr-val">$${o.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
@@ -3148,7 +3148,7 @@
         .catch(() => { });
     }
 
-    /* ─── LIVE PRICE – via backend proxy (no direct CoinGecko calls) ─── */
+    /* --- LIVE PRICE � via backend proxy (no direct CoinGecko calls) --- */
     let basePrice = 65000;
 
     async function fetchLivePrice() {
@@ -3210,18 +3210,18 @@
         t.id = '__toast';
         document.body.appendChild(t);
       }
-      const bg = type === 'error' ? '#F87171' : (type === 'success' ? '#00D4AA' : '#00D4AA');
+      const bg = type === 'error' ? '#F87171' : (type === 'success' ? '#f97316' : '#f97316');
       Object.assign(t.style, { position:'fixed', bottom:'90px', left:'50%', transform:'translateX(-50%)', background:bg, color:'#000', padding:'12px 22px', borderRadius:'14px', fontWeight:'700', zIndex:'9999', fontSize:'13px', boxShadow:'0 4px 20px rgba(0,0,0,.4)', opacity: '1', transition: 'opacity 0.3s' });
       t.textContent = msg;
       clearTimeout(t.__timer);
       t.__timer = setTimeout(() => t.style.opacity = '0', 3000);
     }
   
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ═══════════════════════════════════════════════════
        BINARY OPTIONS ENGINE
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ═══════════════════════════════════════════════════ */
 
-    /* ─── Mode Toggle ─── */
+    /* --- Mode Toggle --- */
     let currentMode = 'spot';
 
     function setMode(mode, btn) {
@@ -3248,7 +3248,7 @@
       }
     }
 
-    /* ─── BO State ─── */
+    /* --- BO State --- */
     let serverTimeOffset = 0; // serverTime - clientTime
     let boExpirySeconds = 60;
     let boPayoutRate    = 0.20;
@@ -3261,7 +3261,7 @@
     let boTvInterval    = '1';
     let boTradeOpenTime = null;
 
-    /* ─── Expiry selector ─── */
+    /* --- Expiry selector --- */
     function boSetExpiry(secs, btn) {
       boExpirySeconds = secs;
       document.querySelectorAll('#boExpiryGroup .bo-exp-btn').forEach(b => b.classList.remove('active'));
@@ -3280,13 +3280,13 @@
       boUpdatePayout();
     }
 
-    /* ─── Quick stake ─── */
+    /* --- Quick stake --- */
     function boSetStake(amount) {
       const inp = document.getElementById('boStakeInput');
       if (inp) { inp.value = amount; boUpdatePayout(); }
     }
 
-    /* ─── Payout calculator ─── */
+    /* --- Payout calculator --- */
     function boUpdatePayout() {
       const stake = parseFloat(document.getElementById('boStakeInput').value) || 0;
       const profit = stake * boPayoutRate;
@@ -3300,13 +3300,13 @@
       if (pctEl) pctEl.textContent = '+' + Math.round(boPayoutRate * 100) + '%';
     }
 
-    /* ─── Available USDT display ─── */
+    /* --- Available USDT display --- */
     function boUpdateAvail() {
       const el = document.getElementById('boAvailUsdt');
       if (el) el.textContent = AVAIL_USDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
     }
 
-    /* ─── TradingView for BO panel ─── */
+    /* --- TradingView for BO panel --- */
     function boRenderTradingView(sym) {
       const container = document.getElementById('boTvChart');
       if (!container) return;
@@ -3321,7 +3321,7 @@
           style: '1',
           locale: 'en',
           enable_publishing: false,
-          backgroundColor: '#161b27',
+          backgroundColor: '#0d0f14',
           gridColor: 'rgba(255,255,255,0.06)',
           hide_top_toolbar: true,
           hide_legend: true,
@@ -3338,7 +3338,7 @@
       boRenderTradingView(activeCoinSym);
     }
 
-    /* ─── Place Trade ─── */
+    /* --- Place Trade --- */
     async function boPlaceTrade(direction) {
       if (boActiveTradeId !== null) {
         showToast('You already have an active trade. Wait for it to settle.', 'error');
@@ -3426,7 +3426,7 @@
       }
     }
 
-    /* ─── Countdown Timer ─── */
+    /* --- Countdown Timer --- */
     function boStartCountdown(totalSecs, tradeId, entryPrice, stake, direction, originalSecs) {
       boTimerTotal = originalSecs || totalSecs;
       const targetEndTime = Date.now() + (totalSecs * 1000);
@@ -3451,7 +3451,7 @@
       const profitEl = document.getElementById('boBannerProfit');
       if (profitEl) profitEl.textContent = Math.round(boPayoutRate * 100) + '%';
 
-      const circumference = 2 * Math.PI * 38; // r=38 → 238.76
+      const circumference = 2 * Math.PI * 38; // r=38 ? 238.76
       const arc = document.getElementById('boTimerArc');
       const timerText = document.getElementById('boTimerText');
 
@@ -3481,7 +3481,7 @@
         const offset  = circumference * (1 - frac);
         if (arc) arc.style.strokeDashoffset = offset;
 
-        // Format display — show raw seconds (matches reference image style)
+        // Format display � show raw seconds (matches reference image style)
         if (timerText) {
           if (boTimerLeft >= 3600) {
             const hh = Math.floor(boTimerLeft / 3600);
@@ -3527,7 +3527,7 @@
       }, 1000);
     }
 
-    /* ─── Settle Trade ─── */
+    /* --- Settle Trade --- */
     async function boSettleTrade(tradeId, exitPrice, entryPrice, stake, direction) {
       try {
         const res  = await fetch('/api/binary/settle/' + tradeId + '?exitPrice=' + exitPrice, {
@@ -3575,7 +3575,7 @@
       }
     }
 
-    /* ─── Show Result Overlay ─── */
+    /* --- Show Result Overlay --- */
     function boShowResult(won, stake, profit, payout, entryPrice, exitPrice, direction, openTime, closeTime) {
       const overlay = document.getElementById('boResultOverlay');
       const card    = document.getElementById('boResultCard');
@@ -3644,7 +3644,7 @@
       document.getElementById('boResultOverlay').classList.remove('show');
     }
 
-    /* ─── History ─── */
+    /* --- History --- */
     async function boLoadHistory() {
       try {
         const res  = await fetch('/api/binary/history', { credentials: 'include' });

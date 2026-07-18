@@ -8,20 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117;
-      --card: #161b27;
-      --card-h: #1e2436;
-      --border: rgba(255,255,255,.08);
+      --bg: #0d0f14;
+      --card: #13171f;
+      --card-h: #1a1f2e;
+      --border: rgba(255,255,255,.07);
       --text: #e8eaf6;
       --muted: #5f6a8a;
-      --cyan: #00d4aa;
+      --cyan: #f97316;
       --blue: #7c4dff;
       --emerald: #00d4aa;
       --purple: #b47aff;
       --red: #f87171;
       --yellow: #fbbf24;
       --sidebar-w: 230px;
-      --header-h: 60px;
+      --header-h: 54px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
@@ -36,8 +36,8 @@
       content: '';
       position: fixed; inset: 0;
       background-image:
-        linear-gradient(rgba(0,212,170,.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,170,.015) 1px, transparent 1px);
+        linear-gradient(rgba(249,115,22,.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249,115,22,.01) 1px, transparent 1px);
       background-size: 44px 44px;
       pointer-events: none; z-index: 0;
     }
@@ -47,7 +47,7 @@
       display: none;
       position: fixed; top: 0; left: 0;
       width: var(--sidebar-w); height: 100vh;
-      background: rgba(15,17,23,.97);
+      background: rgba(11,13,17,.97);
       border-right: 1px solid var(--border);
       backdrop-filter: blur(24px);
       flex-direction: column;
@@ -75,8 +75,8 @@
     }
     .sidebar-item:hover { background: var(--card-h); color: var(--text); }
     .sidebar-item.active {
-      background: rgba(0,212,170,.08); color: var(--cyan);
-      border-color: rgba(0,212,170,.14);
+      background: rgba(249,115,22,.08); color: var(--cyan);
+      border-color: rgba(249,115,22,.14);
     }
     .sidebar-bottom {
       padding: 14px 12px 20px;
@@ -104,7 +104,7 @@
       height: var(--header-h);
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
       padding: 0 18px;
-      background: rgba(15,17,23,.9);
+      background: rgba(13,15,20,.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
@@ -121,7 +121,7 @@
       color: var(--muted); font-size: 13px; cursor: pointer;
       transition: border-color .2s;
     }
-    .header-search:hover { border-color: rgba(0,212,170,.2); }
+    .header-search:hover { border-color: rgba(249,115,22,.2); }
     .header-greeting { display: none; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
     .header-actions { display: flex; gap: 8px; align-items: center; }
     .icon-btn {
@@ -131,7 +131,7 @@
       display: flex; align-items: center; justify-content: center;
       transition: border-color .2s, background .2s; position: relative;
     }
-    .icon-btn:hover { border-color: rgba(0,212,170,.3); background: var(--card-h); }
+    .icon-btn:hover { border-color: rgba(249,115,22,.3); background: var(--card-h); }
     .notif-dot::after {
       content: ''; position: absolute; top: 2px; right: 2px;
       width: 7px; height: 7px; border-radius: 50%;
@@ -169,7 +169,7 @@
     .summary-icon {
       width: 44px; height: 44px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(0,212,170,.08);
+      background: rgba(249,115,22,.08);
     }
     .summary-label { font-size: 12px; color: var(--muted); font-weight: 600; }
     .summary-value { font-weight: 800; font-size: 18px; margin-top: 4px; }
@@ -237,7 +237,7 @@
     }
     .action-btn:hover { background: var(--card-h); }
     .action-btn.primary {
-      background: var(--cyan); color: #0f1117; border-color: var(--cyan);
+      background: var(--cyan); color: #0d0f14; border-color: var(--cyan);
     }
     .action-btn.primary:hover { opacity: .85; }
 
@@ -269,7 +269,7 @@
     /* footer spacing */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(15,17,23,.96); backdrop-filter: blur(22px);
+      background: rgba(13,15,20,.96); backdrop-filter: blur(22px);
       border-top: 1px solid var(--border);
       display: flex; z-index: 200; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
     }
