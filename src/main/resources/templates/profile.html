@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Profile – Appex Crypto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080c14;
+      --card: #0d1421;
+      --card-h: #111a2e;
+      --border: rgba(255,255,255,.07);
+      --text: #f0f4ff;
+      --muted: #6b7fa3;
+      --cyan: #22d3ee;
+      --blue: #3b82f6;
+      --emerald: #34d399;
+      --purple: #a78bfa;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --sidebar-w: 230px;
+      --header-h: 60px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(34,211,238,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      display: none;
+      position: fixed; top: 0; left: 0;
+      width: var(--sidebar-w); height: 100vh;
+      background: rgba(8,12,20,.97);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      flex-direction: column;
+      z-index: 200;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 22px 22px 22px;
+      font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800;
+      color: var(--cyan);
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-nav {
+      flex: 1; padding: 14px 12px;
+      display: flex; flex-direction: column; gap: 3px;
+      overflow-y: auto;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 14px; border-radius: 13px;
+      color: var(--muted); font-size: 13px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: background .17s, color .17s;
+      border: 1px solid transparent;
+    }
+    .sidebar-item:hover { background: var(--card-h); color: var(--text); }
+    .sidebar-item.active {
+      background: rgba(34,211,238,.08); color: var(--cyan);
+      border-color: rgba(34,211,238,.14);
+    }
+    .sidebar-bottom {
+      padding: 14px 12px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-profile {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 13px; border-radius: 13px; cursor: pointer;
+      transition: background .17s;
+    }
+    .sidebar-profile:hover { background: var(--card-h); }
+    .s-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; color: #fff;
+    }
+    .s-name { font-weight: 700; font-size: 13px; }
+    .s-role { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    /* ── HEADER ── */
+    .app-header {
+      position: sticky; top: 0; z-index: 150;
+      height: var(--header-h);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 0 18px;
+      background: rgba(8,12,20,.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; color: var(--cyan);
+      flex-shrink: 0;
+    }
+    .header-search {
+      display: none; flex: 1; max-width: 300px;
+      align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 8px 14px;
+      color: var(--muted); font-size: 13px; cursor: pointer;
+      transition: border-color .2s;
+    }
+    .header-search:hover { border-color: rgba(34,211,238,.2); }
+    .header-greeting { display: none; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s; position: relative;
+    }
+    .icon-btn:hover { border-color: rgba(34,211,238,.3); background: var(--card-h); }
+    .notif-dot::after {
+      content: ''; position: absolute; top: 2px; right: 2px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--red); border: 2px solid var(--bg);
+    }
+    .avatar-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border: none; color: #fff; font-weight: 800; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── LAYOUT ── */
+    .layout { position: relative; z-index: 1; }
+    .main-content { padding: 18px 16px 100px; }
+
+    /* ── PROFILE PAGE STYLES ── */
+    .profile-header {
+      display: flex; flex-direction: column; gap: 20px;
+      margin-bottom: 28px;
+    }
+    .cover-gradient {
+      height: 130px; border-radius: 26px;
+      background: linear-gradient(135deg, rgba(34,211,238,.25), rgba(167,139,250,.3), rgba(59,130,246,.2));
+      position: relative;
+    }
+    .avatar-section {
+      display: flex; align-items: flex-end; gap: 18px;
+      margin-top: -48px; padding: 0 10px;
+      flex-wrap: wrap;
+    }
+    .profile-avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border: 4px solid var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px; font-weight: 800; color: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,.5);
+    }
+    .profile-info {
+      flex: 1; padding-bottom: 6px;
+    }
+    .profile-name {
+      font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800;
+      word-break: break-word;
+    }
+    .profile-email {
+      color: var(--muted); font-size: 14px; margin-top: 4px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge-pro {
+      background: rgba(34,211,238,.12); color: var(--cyan);
+      padding: 4px 12px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; margin-left: 8px;
+    }
+    .edit-profile-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 22px; border-radius: 14px;
+      font-weight: 700; font-size: 13px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 14px; transition: background .2s;
+    }
+    .edit-profile-btn:hover { background: var(--card-h); }
+
+    .profile-grid {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 22px; padding: 22px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800;
+      margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .section-title a {
+      font-family: 'Space Grotesk',sans-serif; font-size: 12px; color: var(--cyan);
+      font-weight: 600; text-decoration: none;
+    }
+
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 0; border-bottom: 1px solid var(--border);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--muted); font-size: 13px; font-weight: 500; }
+    .info-value { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; word-break: break-word; max-width: 55%; text-align: right; }
+
+    .toggle-switch {
+      width: 44px; height: 24px; background: #2a3444;
+      border-radius: 100px; position: relative; cursor: pointer;
+      transition: background .2s;
+    }
+    .toggle-switch.active { background: var(--emerald); }
+    .toggle-switch::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 20px; height: 20px; background: white; border-radius: 50%;
+      transition: transform .2s;
+    }
+    .toggle-switch.active::after { transform: translateX(20px); }
+
+    .device-row {
+      display: flex; align-items: center; gap: 14px; padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .device-row:last-child { border-bottom: none; }
+    .device-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center;
+    }
+    .device-info { flex: 1; }
+    .device-name { font-weight: 700; font-size: 14px; }
+    .device-location { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .device-status {
+      font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 100px;
+    }
+    .status-active { background: rgba(52,211,153,.12); color: var(--emerald); }
+    .status-inactive { background: rgba(248,113,113,.12); color: var(--red); }
+
+    .activity-row {
+      display: flex; align-items: center; gap: 14px; padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-row:last-child { border-bottom: none; }
+    .activity-icon {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .activity-desc { font-weight: 600; font-size: 13px; }
+    .activity-time { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(8,12,20,.96); backdrop-filter: blur(22px);
+      border-top: 1px solid var(--border);
+      display: flex; z-index: 200; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+      padding: 5px 4px; color: var(--muted); text-decoration: none;
+      font-size: 10px; font-weight: 600; cursor: pointer;
+      transition: color .2s; border: none; background: none;
+    }
+    .nav-item.active { color: var(--cyan); }
+    .nav-item:hover { color: var(--text); }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(12px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    .fade-up { animation: fadeUp .4s ease forwards; }
+
+    /* responsive */
+    @media (min-width: 640px) {
+      .main-content { padding: 24px 24px 100px; }
+      .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .span-2 { grid-column: span 2; }
+    }
+    @media (min-width: 1024px) {
+      .sidebar { display: flex; }
+      .bottom-nav { display: none; }
+      .app-header { left: var(--sidebar-w); padding: 0 28px; }
+      .header-logo { display: none; }
+      .header-greeting { display: block; }
+      .header-search { display: flex; }
+      .layout { margin-left: var(--sidebar-w); }
+      .main-content { padding: 28px 32px 32px; }
+      .profile-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .profile-header { flex-direction: row; align-items: flex-end; }
+      .cover-gradient { height: 160px; }
+    }
+    /* ── OVERRIDE INLINE SPAN-2 ON MOBILE (single-column layout safety) ── */
+    @media (max-width: 639px) {
+      /* Cards with inline style="grid-column: span 2" must not overflow single-col grid */
+      .profile-grid > [style*='grid-column'] { grid-column: 1 / -1 !important; }
+      .main-content { padding: 14px 12px 100px; }
+      .profile-name { font-size: 22px; }
+      .avatar-section { margin-top: -38px; }
+      .profile-avatar { width: 76px; height: 76px; font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    
+    Appex Crypto
+  </div>
+  <nav class="sidebar-nav">
+    <a href="/home/dashboard" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Dashboard
+    </a>
+    <a href="/home/market" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Markets
+    </a>
+    <a href="/home/trade" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Trade
+    </a>
+    <a href="/home/assets" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Assets
+    </a>
+    <a href="/home/staking" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg>
+      Staking
+    </a>
+    <a href="/home/referral" class="sidebar-item">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Referral
+    </a>
+    
+    <a href="/home/setting" class="sidebar-item" style="margin-top:auto;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </a>
+
+     </nav>
+  <div class="sidebar-bottom">
+    <div class="sidebar-profile">
+      <div class="s-avatar">
+        <a href="/home/profile" class="avatar-btn" th:text="${user.fullName != null and !#strings.isEmpty(user.fullName) ? #strings.substring(user.fullName, 0, 1) : '?'}">U</a>
+      </div>
+      <div><div class="s-name" th:text="${user.fullName}">User</div><div class="s-role">Pro Account</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ════ HEADER ════ -->
+<header class="app-header">
+  <div class="header-logo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    Appex Crypto
+  </div>
+  <div class="header-greeting">Profile Settings</div>
+  <div style="flex:1;display:flex;justify-content:center;">
+    <div class="header-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search settings...
+    </div>
+  </div>
+  <div class="header-actions">
+    <a href="/home/setting" class="icon-btn" aria-label="Settings">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </a>
+    <button class="icon-btn notif-dot">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <a href="/home/profile" class="avatar-btn" th:text="${user.fullName != null and !#strings.isEmpty(user.fullName) ? #strings.substring(user.fullName, 0, 1) : '?'}">U</a>
+  </div>
+</header>
+
+<!-- ════ MAIN CONTENT ════ -->
+<div class="layout">
+  <main class="main-content fade-up">
+    <div class="profile-header">
+      <div class="cover-gradient"></div>
+      <div class="avatar-section">
+        <div class="profile-avatar" th:text="${user.fullName != null and !#strings.isEmpty(user.fullName) ? #strings.substring(user.fullName, 0, 1) : '?'}">U</div>
+        <div class="profile-info">
+          <div class="profile-name" th:text="${user.fullName}">User <span class="badge-pro">PRO</span></div>
+          <div class="profile-email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span th:text="${user.email}">user@email.com</span>
+          </div>
+          <a href="/home/setting" class="edit-profile-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit Profile
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <!-- Account Details -->
+      <div class="card">
+        <div class="section-title">Account Details <a href="/home/setting">Edit</a></div>
+        <div class="info-row"><span class="info-label">Full Name</span><span class="info-value" th:text="${user.fullName}">—</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value" th:text="${user.email}">—</span></div>
+        <div class="info-row"><span class="info-label">Role</span><span class="info-value" th:text="${user.role}">—</span></div>
+        <div class="info-row"><span class="info-label">Referral Code</span><span class="info-value" th:text="${user.referralCode != null ? user.referralCode : '—'}">—</span></div>
+        <div class="info-row"><span class="info-label">Member Since</span><span class="info-value" th:text="${#temporals.format(user.createdAt, 'MMM yyyy')}">—</span></div>
+      </div>
+
+      <!-- Security -->
+      <div class="card">
+        <div class="section-title">Security <a href="#">Manage</a></div>
+        <div class="info-row">
+          <span class="info-label">Two-Factor Auth</span>
+          <span class="info-value"><span class="toggle-switch active" id="twofaToggle"></span> Enabled</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Biometric Login</span>
+          <span class="info-value"><span class="toggle-switch" id="bioToggle"></span> Disabled</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Anti-Phishing Code</span>
+          <span class="info-value">••••••••</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Password</span>
+          <span class="info-value" style="color:var(--cyan); cursor:pointer;">Change</span>
+        </div>
+      </div>
+
+      <!-- KYC Verification -->
+      <div class="card">
+        <div class="section-title">Verification</div>
+        <div class="info-row">
+          <span class="info-label">KYC Status</span>
+          <span class="info-value"
+            th:style="${user.kycStatus != null && user.kycStatus.name() == 'APPROVED'} ? 'color:var(--emerald)' : (${user.kycStatus != null && user.kycStatus.name() == 'PENDING'} ? 'color:var(--yellow)' : 'color:var(--red)')"
+            th:text="${user.kycStatus != null ? user.kycStatus.name() : 'NOT SUBMITTED'}">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Account Level</span>
+          <span class="info-value">Standard</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Wallets Active</span>
+          <span class="info-value" th:text="${dashboard != null ? dashboard.wallets.size() : '0'}">0</span>
+        </div>
+      </div>
+
+      
+
+      <!-- Recent Activity from real transactions -->
+      <div class="card" style="grid-column: span 2;">
+        <div class="section-title">Recent Activity <a href="/home/history">View all</a></div>
+        <div th:if="${dashboard == null || dashboard.recentTransactions == null || dashboard.recentTransactions.isEmpty()}">
+          <div style="padding:30px;text-align:center;color:var(--muted);">No recent activity yet.</div>
+        </div>
+        <div th:each="tx : ${dashboard != null ? dashboard.recentTransactions : {}}" class="activity-row">
+          <div class="activity-icon"
+            th:style="${tx.type == 'DEPOSIT'} ? 'background:rgba(52,211,153,.1)' : (${tx.type == 'WITHDRAWAL'} ? 'background:rgba(248,113,113,.1)' : 'background:rgba(34,211,238,.1)')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2"
+              th:attr="stroke=${tx.type == 'DEPOSIT' ? 'var(--emerald)' : (tx.type == 'WITHDRAWAL' ? 'var(--red)' : 'var(--cyan)')}"
+              th:if="${tx.type == 'DEPOSIT'}"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"
+              th:if="${tx.type == 'WITHDRAWAL'}"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"
+              th:if="${tx.type != 'DEPOSIT' && tx.type != 'WITHDRAWAL'}"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div style="flex:1">
+            <div class="activity-desc"
+              th:text="${tx.type + ' ' + tx.amount + ' ' + tx.coinSymbol}">—</div>
+            <div class="activity-time"
+              th:text="${tx.status + ' · ' + #temporals.format(tx.createdAt, 'MMM d, HH:mm')}">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ════ BOTTOM NAV ════ -->
+<nav class="bottom-nav">
+  <a href="/home/dashboard" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="/home/market" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Markets</a>
+  <a href="/home/trade" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Trade</a>
+  <a href="/home/assets" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Assets</a>
+  <a href="/home/profile" class="nav-item active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
+</nav>
+
+<script>
+  (function() {
+    // Toggle switches interactive behavior
+    const twofaToggle = document.getElementById('twofaToggle');
+    const bioToggle = document.getElementById('bioToggle');
+
+    function updateToggle(el, active) {
+      if (!el) return;
+      if (active) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+      // update adjacent text
+      const parent = el.parentElement;
+      if (parent && parent.lastChild) {
+        parent.lastChild.textContent = active ? ' Enabled' : ' Disabled';
+      }
+    }
+
+    if (twofaToggle) {
+      twofaToggle.addEventListener('click', function(e) {
+        const currentlyActive = this.classList.contains('active');
+        updateToggle(this, !currentlyActive);
+      });
+    }
+    if (bioToggle) {
+      bioToggle.addEventListener('click', function(e) {
+        const currentlyActive = this.classList.contains('active');
+        updateToggle(this, !currentlyActive);
+      });
+    }
+
+    // Optional: edit profile button alert
+    const editBtn = document.querySelector('.edit-profile-btn');
+    if (editBtn) {
+      editBtn.addEventListener('click', () => showToast('Edit profile modal would open.', 'info'));
+    }
+
+    // Sidebar active state (already static, but could be dynamic)
+    console.log('Profile page ready – Appex Crypto');
+
+    function showToast(msg, type = 'info') {
+      let t = document.getElementById('__toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = '__toast';
+        document.body.appendChild(t);
+      }
+      const bg = type === 'error' ? '#F87171' : (type === 'success' ? '#34D399' : '#22D3EE');
+      Object.assign(t.style, { position:'fixed', bottom:'90px', left:'50%', transform:'translateX(-50%)', background:bg, color:'#000', padding:'12px 22px', borderRadius:'14px', fontWeight:'700', zIndex:'9999', fontSize:'13px', boxShadow:'0 4px 20px rgba(0,0,0,.4)', opacity: '1', transition: 'opacity 0.3s' });
+      t.textContent = msg;
+      clearTimeout(t.__timer);
+      t.__timer = setTimeout(() => t.style.opacity = '0', 3000);
+    }
+  })();
+</script>
+</body>
+</html>

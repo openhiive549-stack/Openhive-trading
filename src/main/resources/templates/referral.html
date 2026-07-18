@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Referral – Appex Crypto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #161b27;
+      --card-h: #1e2436;
+      --border: rgba(255, 255, 255, .08);
+      --text: #e8eaf6;
+      --muted: #5f6a8a;
+      --cyan: #00d4aa;
+      --blue: #7c4dff;
+      --emerald: #00d4aa;
+      --purple: #b47aff;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --sidebar-w: 230px;
+      --header-h: 60px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34, 211, 238, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, .025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: rgba(8, 12, 20, .97);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+      flex-direction: column;
+      z-index: 200;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px;
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--cyan);
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      overflow-y: auto;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 14px;
+      border-radius: 13px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .17s, color .17s;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-item:hover {
+      background: var(--card-h);
+      color: var(--text);
+    }
+
+    .sidebar-item.active {
+      background: rgba(34, 211, 238, .08);
+      color: var(--cyan);
+      border-color: rgba(34, 211, 238, .14);
+    }
+
+    .sidebar-bottom {
+      padding: 14px 12px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-profile {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 13px;
+      border-radius: 13px;
+      cursor: pointer;
+      transition: background .17s;
+    }
+
+    .sidebar-profile:hover {
+      background: var(--card-h);
+    }
+
+    .s-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: #fff;
+    }
+
+    .s-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .s-role {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 150;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 18px;
+      background: rgba(8, 12, 20, .9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--cyan);
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .header-search {
+      display: none;
+      flex: 1;
+      max-width: 300px;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .header-greeting {
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+
+    .icon-btn:hover {
+      border-color: rgba(34, 211, 238, .3);
+      background: var(--card-h);
+    }
+
+    .notif-dot::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 2px solid var(--bg);
+    }
+
+    .avatar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-content {
+      padding: 18px 16px 100px;
+    }
+
+    /* ── HERO BANNER ── */
+    .referral-hero {
+      background: linear-gradient(135deg, rgba(34, 211, 238, .1) 0%, rgba(59, 130, 246, .08) 50%, rgba(167, 139, 250, .06) 100%);
+      border: 1px solid rgba(34, 211, 238, .15);
+      border-radius: 24px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .referral-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 211, 238, .08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      color: var(--cyan);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 460px;
+      margin-bottom: 22px;
+    }
+
+    .ref-code-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    @media (min-width: 580px) {
+      .ref-code-wrap { flex-direction: row; align-items: center; }
+    }
+
+    .ref-code-box {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(0, 0, 0, .3);
+      border: 1px solid rgba(34, 211, 238, .2);
+      border-radius: 14px;
+      overflow: hidden;
+      flex: 1;
+      max-width: 100%;
+    }
+
+    .ref-code-label {
+      padding: 12px 16px;
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--cyan);
+      letter-spacing: 3px;
+      flex: 1;
+    }
+
+    .copy-btn {
+      padding: 12px 18px;
+      background: var(--cyan);
+      color: #0f1117;
+      font-weight: 700;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .copy-btn:hover {
+      opacity: .85;
+    }
+
+    .share-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .share-btn:hover {
+      background: var(--card-h);
+      border-color: rgba(34, 211, 238, .2);
+    }
+
+    /* ── STATS GRID ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .stat-value {
+      font-weight: 800;
+      font-size: 20px;
+      margin-top: 4px;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ── TIER PROGRESS ── */
+    .tier-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .tier-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tier-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .tier-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 10px;
+      background: rgba(167, 139, 250, .12);
+      color: var(--purple);
+    }
+
+    .tier-track {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .tier-bar-bg {
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .06);
+      margin-bottom: 0;
+    }
+
+    .tier-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      transition: width .8s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .tier-dots {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: -4px;
+    }
+
+    .tier-dot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tier-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      background: rgba(255, 255, 255, .1);
+      position: relative;
+      z-index: 1;
+      margin-top: -4px;
+    }
+
+    .tier-dot.reached {
+      background: var(--cyan);
+    }
+
+    .tier-dot.current {
+      background: var(--purple);
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, .25);
+    }
+
+    .tier-dot-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .tier-dot-label.active {
+      color: var(--purple);
+    }
+
+    .tier-perks {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 480px) {
+      .tier-perks { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .tier-perk {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .tier-perk.active-tier {
+      border-color: rgba(167, 139, 250, .2);
+      background: rgba(167, 139, 250, .05);
+    }
+
+    .perk-name {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .perk-commission {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--emerald);
+    }
+
+    .perk-req {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── REFERRALS TABLE ── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .section-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cyan);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      display: none;
+    }
+
+    .ref-table th {
+      text-align: left;
+      padding: 14px 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ref-table tr:hover td {
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .pill-active {
+      background: rgba(52, 211, 153, .12);
+      color: var(--emerald);
+    }
+
+    .pill-pending {
+      background: rgba(251, 191, 36, .1);
+      color: var(--yellow);
+    }
+
+    .pill-inactive {
+      background: rgba(107, 127, 163, .1);
+      color: var(--muted);
+    }
+
+    .ref-mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ref-mobile-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-mobile-row:last-child {
+      border-bottom: none;
+    }
+
+    /* ── EARNINGS BREAKDOWN ── */
+    .earnings-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .earnings-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .earnings-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .earnings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .earnings-row:last-child {
+      border-bottom: none;
+    }
+
+    .earnings-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .earnings-val {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 60px;
+      margin-top: 16px;
+    }
+
+    .mini-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mini-bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(180deg, var(--cyan), rgba(34, 211, 238, .3));
+      transition: height .5s ease;
+    }
+
+    .mini-bar-label {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .how-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .how-step {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: rgba(34, 211, 238, .08);
+      border: 1px solid rgba(34, 211, 238, .14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .how-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .how-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(8, 12, 20, .96);
+      backdrop-filter: blur(22px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 200;
+      padding: 8px 0 max(12px, env(safe-area-inset-bottom));
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 4px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color .2s;
+      border: none;
+      background: none;
+    }
+
+    .nav-item.active {
+      color: var(--cyan);
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--emerald);
+      color: #0f1117;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 22px;
+      border-radius: 99px;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .35s ease forwards;
+    }
+
+    .text-small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .positive {
+      color: var(--emerald);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 580px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .how-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .earnings-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        display: flex;
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+
+      .app-header {
+        left: var(--sidebar-w);
+        padding: 0 28px;
+      }
+
+      .header-logo {
+        display: none;
+      }
+
+      .header-greeting {
+        display: block;
+      }
+
+      .header-search {
+        display: flex;
+      }
+
+      .layout {
+        margin-left: var(--sidebar-w);
+      }
+
+      .main-content {
+        padding: 28px 32px 32px;
+      }
+
+      .ref-table {
+        display: table;
+      }
+
+      .ref-mobile {
+        display: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .how-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .earnings-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .ref-table {
+        display: none;
+      }
+
+      .ref-mobile {
+        display: flex;
+      }
+    }
+    /* ── EXTRA SMALL PHONES (< 480px) ── */
+    @media (max-width: 480px) {
+      .main-content { padding: 14px 12px 100px; }
+      .referral-hero { padding: 20px 16px; }
+      .hero-title { font-size: 22px; }
+      .page-title { font-size: 24px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="sidebar">
+    <a href="/home/dashboard" class="sidebar-logo">
+      
+      Appex Crypto
+    </a>
+    <nav class="sidebar-nav">
+      <a href="/home/dashboard" class="sidebar-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        Dashboard
+      </a>
+      <a href="/home/market" class="sidebar-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+        Markets
+      </a>
+      <a href="/home/trade" class="sidebar-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        Trade
+      </a>
+      <a href="/home/assets" class="sidebar-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+        </svg>
+        Assets
+      </a>
+      <a href="/home/staking" class="sidebar-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="6 3 18 3 22 9 12 22 2 9" />
+        </svg>
+        Staking
+      </a>
+      <a href="/home/referral" class="sidebar-item active">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        Referral
+      </a>
+     
+      <a href="/home/setting" class="sidebar-item" style="margin-top:auto;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+        Settings
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-profile">
+        <div class="s-avatar" id="sidebarUserInitial">?</div>
+        <div>
+          <div class="s-name" id="sidebarUserName">Loading...</div>
+          <div class="s-role" id="sidebarUserRole">...</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════ HEADER ════ -->
+  <header class="app-header">
+    <a href="/home/dashboard" class="header-logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+      Appex Crypto
+    </a>
+    <div class="header-greeting">Referral Program</div>
+    <div style="flex:1;display:flex;justify-content:center;">
+      <div class="header-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        Search referrals...
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="/home/setting" class="icon-btn" aria-label="Settings">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </a>
+      <button class="icon-btn notif-dot">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+      </button>
+      <a href="/home/profile" class="avatar-btn">A</a>
+    </div>
+  </header>
+
+  <!-- ════ LAYOUT ════ -->
+  <div class="layout">
+    <main class="main-content fade-up">
+
+      <!-- Hero Banner -->
+      <div class="referral-hero">
+        <div class="hero-label">✦ Referral Program</div>
+        <h1 class="hero-title">Earn up to <span>30%</span> commission<br>on every trade</h1>
+        <p class="hero-sub">Invite friends to Appex Crypto and earn a percentage of their trading fees — forever. The
+          more they trade, the more you earn.</p>
+        <div class="ref-code-wrap">
+          <div class="ref-code-box">
+            <div class="ref-code-label" id="refCode">NEXUS-AJ7X2</div>
+            <button class="copy-btn" onclick="copyCode()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              Copy
+            </button>
+          </div>
+          <div class="share-btns">
+            <button class="share-btn" onclick="shareLink('twitter')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.907-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              Tweet
+            </button>
+            <button class="share-btn" onclick="shareLink('copy')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              Copy Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(0,212,170,.08)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Total Referrals</div>
+            <div class="stat-value">47</div>
+            <div class="stat-sub">+3 this week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(52,211,153,.08)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Total Earned</div>
+            <div class="stat-value positive" id="statTotalEarned">$0.00</div>
+            <div class="stat-sub" style="display:none">+$0.00 this week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(167,139,250,.08)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Current Tier</div>
+            <div class="stat-value" style="color:var(--purple)" id="statCurrentTier">Bronze</div>
+            <div class="stat-sub" id="statTierComm">10% commission</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(251,191,36,.08)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Active Referrals</div>
+            <div class="stat-value" id="statActiveRefs">0</div>
+            <div class="stat-sub" id="statTotalRefsSub">of 0 total</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tier Progress -->
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-title">Commission Tier</div>
+          <div class="tier-badge" id="tierBadge">⭐ Bronze — 10%</div>
+        </div>
+        <div class="tier-track">
+          <div class="tier-bar-bg">
+            <div class="tier-bar-fill" id="tierBarFill" style="width:0%"></div>
+          </div>
+          <div class="tier-dots">
+            <div class="tier-dot-wrap">
+              <div class="tier-dot reached"></div>
+              <div class="tier-dot-label">Bronze<br>10%</div>
+            </div>
+            <div class="tier-dot-wrap">
+              <div class="tier-dot reached"></div>
+              <div class="tier-dot-label">Silver<br>20%</div>
+            </div>
+            <div class="tier-dot-wrap">
+              <div class="tier-dot current"></div>
+              <div class="tier-dot-label active">Gold ★<br>25%</div>
+            </div>
+            <div class="tier-dot-wrap">
+              <div class="tier-dot"></div>
+              <div class="tier-dot-label">Platinum<br>30%</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px" id="tierTargetText">
+          You need <strong style="color:var(--text)">10 more active referrals</strong> to reach <strong
+            style="color:var(--purple)">Silver (20%)</strong>.
+        </div>
+        <div class="tier-perks">
+          <div class="tier-perk">
+            <div class="perk-name" style="color:var(--yellow)">🥉 Bronze</div>
+            <div class="perk-commission">10%</div>
+            <div class="perk-req">0–9 referrals</div>
+          </div>
+          <div class="tier-perk">
+            <div class="perk-name" style="color:#94a3b8">🥈 Silver</div>
+            <div class="perk-commission">20%</div>
+            <div class="perk-req">10–29 referrals</div>
+          </div>
+          <div class="tier-perk active-tier">
+            <div class="perk-name" style="color:var(--yellow)">🥇 Gold ★</div>
+            <div class="perk-commission">25%</div>
+            <div class="perk-req">30–59 referrals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings Breakdown -->
+      <div class="section-head">
+        <div class="section-title">Earnings Breakdown</div>
+      </div>
+      <div class="earnings-grid">
+        <div class="earnings-card">
+          <div class="earnings-card-title">Monthly Earnings</div>
+          <div class="mini-chart" id="miniChart"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px">
+            <div>
+              <div class="text-small">This Month</div>
+              <div style="font-weight:800;font-size:17px;margin-top:3px" class="positive">+$248.20</div>
+            </div>
+            <div style="text-align:right">
+              <div class="text-small">vs Last Month</div>
+              <div style="font-weight:700;font-size:14px;margin-top:3px;color:var(--emerald)">▲ 18.4%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="earnings-card">
+          <div class="earnings-card-title">Earnings by Coin</div>
+          <div id="earningsByCoin">
+            <div style="text-align:center;color:var(--muted);padding:24px;font-size:13px">
+              Loading...
+            </div>
+          </div>
+          <div class="earnings-row" style="margin-top:4px;border-top:1px solid var(--border);padding-top:12px">
+            <span style="font-weight:700">Total Bonuses</span>
+            <span class="earnings-val positive" style="font-size:16px" id="valTotalEarnings">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Referrals Table -->
+      <div class="section-head">
+        <div class="section-title">My Referrals</div>
+        <a class="section-link" href="#" onclick="showToast('CSV export would start here.', 'info')">Export CSV</a>
+      </div>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Joined</th>
+              <th>Volume Traded</th>
+              <th>Earned from</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="refTableBody"></tbody>
+        </table>
+        <div class="ref-mobile" id="refMobile"></div>
+      </div>
+
+      <!-- How It Works -->
+      <div class="section-head">
+        <div class="section-title">How It Works</div>
+      </div>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-step">1</div>
+          <div>
+            <div class="how-title">Share your code</div>
+            <div class="how-desc">Copy your unique referral link or code and share it with friends via social media,
+              email, or messaging apps.</div>
+          </div>
+        </div>
+        <div class="how-card">
+          <div class="how-step">2</div>
+          <div>
+            <div class="how-title">Friends sign up</div>
+            <div class="how-desc">When your friend registers using your code they are permanently linked to your account
+              as a referral.</div>
+          </div>
+        </div>
+        <div class="how-card">
+          <div class="how-step">3</div>
+          <div>
+            <div class="how-title">Earn commissions</div>
+            <div class="how-desc">Every time your referral trades, you earn up to 30% of their trading fees — paid out
+              instantly in crypto.</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ════ BOTTOM NAV ════ -->
+  <nav class="bottom-nav">
+    <a href="/home/dashboard" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>Home</a>
+    <a href="/home/market" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>Markets</a>
+    <a href="/home/trade" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>Trade</a>
+    <a href="/home/referral" class="nav-item active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>Referral</a>
+    <a href="/home/profile" class="nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>Profile</a>
+  </nav>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+
+  <script>
+    (function () {
+
+      
+
+      const COLORS = ['#627eea', '#9945ff', '#00d4aa', '#f7931a', '#f87171', '#fbbf24', '#b47aff', '#7c4dff'];
+
+      /* ─────────────────────────────────────────────────────────────────────────
+         renderReferredUsers — now uses per-user rewardAmount + rewardCoin
+         from the enriched referredUsers array returned by the backend.
+      ───────────────────────────────────────────────────────────────────────── */
+      function renderReferredUsers(users) {
+        const tbody = document.getElementById('refTableBody');
+        const mobile = document.getElementById('refMobile');
+
+        if (!users || users.length === 0) {
+          const empty = `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px;">No referrals yet — share your code!</td></tr>`;
+          if (tbody) tbody.innerHTML = empty;
+          if (mobile) mobile.innerHTML = `<div style="text-align:center;color:var(--muted);padding:32px 16px;">No referrals yet — share your code!</div>`;
+          return;
+        }
+
+        if (tbody) {
+          tbody.innerHTML = users.map((u, i) => {
+            const initials = (u.fullName || u.email || '?').substring(0, 2).toUpperCase();
+            const color = COLORS[i % COLORS.length];
+            const joined = u.createdAt
+              ? new Date(u.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+              : '—';
+            const kycStatus = u.kycStatus || 'PENDING';
+            const pillClass = kycStatus === 'VERIFIED' ? 'pill-active'
+              : kycStatus === 'SUBMITTED' ? 'pill-pending' : 'pill-inactive';
+
+            // ── DYNAMIC reward label ──────────────────────────────────────────
+            const rewardLabel = (u.rewardAmount && Number(u.rewardAmount) > 0)
+              ? `${Number(u.rewardAmount).toFixed(8).replace(/\.?0+$/, '')} ${u.rewardCoin}`
+              : '—';
+
+            return `<tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:${color}30;color:${color}">${initials}</div>
+              <div>
+                <div style="font-weight:700">${u.fullName || 'Unknown'}</div>
+                <div style="font-size:11px;color:var(--muted)">${u.email}</div>
+              </div>
+            </div>
+          </td>
+          <td class="text-small">${joined}</td>
+          <td style="font-weight:700;color:var(--emerald)">${rewardLabel}</td>
+          <td><span class="status-pill ${pillClass}">${kycStatus}</span></td>
+          <td style="font-size:11px;color:var(--muted)">${u.referralCode || '—'}</td>
+        </tr>`;
+          }).join('');
+        }
+
+        if (mobile) {
+          mobile.innerHTML = users.map((u, i) => {
+            const initials = (u.fullName || u.email || '?').substring(0, 2).toUpperCase();
+            const color = COLORS[i % COLORS.length];
+            const joined = u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—';
+            const kycStatus = u.kycStatus || 'PENDING';
+            const pillClass = kycStatus === 'VERIFIED' ? 'pill-active'
+              : kycStatus === 'SUBMITTED' ? 'pill-pending' : 'pill-inactive';
+
+            const rewardLabel = (u.rewardAmount && Number(u.rewardAmount) > 0)
+              ? `${Number(u.rewardAmount).toFixed(8).replace(/\.?0+$/, '')} ${u.rewardCoin}`
+              : '—';
+
+            return `<div class="ref-mobile-row">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;border-radius:50%;background:${color}30;color:${color};
+                        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">${initials}</div>
+            <div>
+              <div style="font-weight:700;font-size:14px">${u.fullName || 'Unknown'}</div>
+              <div class="text-small">${joined}</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700;font-size:14px;color:var(--emerald)">${rewardLabel}</div>
+            <span class="status-pill ${pillClass}" style="display:inline-block;margin-top:4px">${kycStatus}</span>
+          </div>
+        </div>`;
+          }).join('');
+        }
+      }
+
+      /* ─────────────────────────────────────────────────────────────────────────
+    renderEarningsByCoin — DYNAMIC earnings breakdown by coin symbol
+    bonusByCoin: { "SOL": 0.10, "BTC": 0.0005, ... }
+ ───────────────────────────────────────────────────────────────────────── */
+      function renderEarningsByCoin(bonusByCoin) {
+        const container = document.getElementById('earningsByCoin');
+        if (!container) return;
+
+        const entries = Object.entries(bonusByCoin || {});
+
+        if (entries.length === 0) {
+          container.innerHTML = `
+  <div style="text-align:center;color:var(--muted);padding:24px;font-size:13px">
+    No referral bonuses earned yet
+  </div>`;
+          return;
+        }
+
+        // Coin icon map (add more as needed)
+        const COIN_COLORS = {
+          BTC: '#f7931a', ETH: '#627eea', SOL: '#9945ff', USDT: '#26a17b',
+          BNB: '#fbbf24', XRP: '#00aae4', ADA: '#0033ad', DOT: '#e6007a',
+          MATIC: '#8247e5', AVAX: '#e84142', LINK: '#375bd2', UNI: '#ff007a',
+        };
+
+        container.innerHTML = entries.map(([coin, amount]) => {
+          const color = COIN_COLORS[coin.toUpperCase()] || 'var(--cyan)';
+          const formatted = Number(amount).toFixed(8).replace(/\.?0+$/, '');
+          return `
+  <div class="earnings-row">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:28px;height:28px;border-radius:50%;
+                  background:${color}22;border:1px solid ${color}44;
+                  display:flex;align-items:center;justify-content:center;
+                  font-size:10px;font-weight:800;color:${color}">${coin.substring(0, 3)}</div>
+      <span class="earnings-label">${coin} Bonus</span>
+    </div>
+    <span class="earnings-val positive">${formatted} <span style="font-size:11px;color:var(--muted)">${coin}</span></span>
+  </div>`;
+        }).join('');
+      }
+
+
+      /* ─────────────────────────────────────────────────────────────────────────
+         updateHeader — updates all stats, tier, and total earned
+      ───────────────────────────────────────────────────────────────────────── */
+      function updateHeader(data) {
+        // Referral code
+        if (data.referralCode) {
+          const el = document.getElementById('refCode');
+          if (el) el.textContent = data.referralCode;
+        }
+
+        // Hero subtitle
+        const sub = document.querySelector('.hero-sub');
+        if (sub) sub.textContent = `Invite friends to Appex Crypto and earn 10% of their first deposit — credited automatically to your wallet!`;
+
+        // How it Works step 3
+        const step3 = document.querySelector('.how-card:nth-child(3) .how-desc');
+        if (step3) step3.textContent = `When your referred friend passes KYC and makes their first deposit, you automatically receive 10% of that deposit credited directly to your wallet!`;
+
+        // ── Stat cards ──────────────────────────────────────────────────────────
+        const totalEl = document.querySelector('.stats-grid .stat-card:nth-child(1) .stat-value');
+        if (totalEl) totalEl.textContent = data.totalReferrals || 0;
+
+        const totalEarnedRaw = Number(data.totalEarned || 0);
+
+        // For the "Total Earned" card we show USD equivalent if it's all the same currency,
+        // otherwise just show the raw sum with a note.
+        // Since bonusByCoin gives us real coin totals, display the total number
+        // and let the breakdown card show per-coin details.
+        const statTotalEarned = document.getElementById('statTotalEarned');
+        if (statTotalEarned) {
+          // If bonusByCoin has exactly one coin and total is meaningful, show coin value
+          const coinEntries = Object.entries(data.bonusByCoin || {});
+          if (coinEntries.length === 1) {
+            const [coin, amt] = coinEntries[0];
+            statTotalEarned.textContent = `${Number(amt).toFixed(6).replace(/\.?0+$/, '')} ${coin}`;
+          } else if (coinEntries.length > 1) {
+            statTotalEarned.textContent = `${coinEntries.length} coins`;
+          } else {
+            statTotalEarned.textContent = '$0.00';
+          }
+        }
+
+        // "Total Earned" subtitle in earnings card
+        const valTotalEarnings = document.getElementById('valTotalEarnings');
+        if (valTotalEarnings) {
+          const coinEntries = Object.entries(data.bonusByCoin || {});
+          if (coinEntries.length === 0) {
+            valTotalEarnings.textContent = '0';
+          } else if (coinEntries.length === 1) {
+            const [coin, amt] = coinEntries[0];
+            valTotalEarnings.textContent = `${Number(amt).toFixed(8).replace(/\.?0+$/, '')} ${coin}`;
+          } else {
+            // Multi-coin: just show count of coins earned
+            valTotalEarnings.textContent = `${coinEntries.length} assets`;
+          }
+        }
+
+        // ── Tier Badge & Progress ───────────────────────────────────────────────
+        const tierIcon = data.currentTier === 'Platinum' ? '💎'
+          : data.currentTier === 'Gold' ? '🥇'
+            : data.currentTier === 'Silver' ? '🥈' : '🥉';
+        if (document.getElementById('tierBadge'))
+          document.getElementById('tierBadge').textContent = `${tierIcon} ${data.currentTier || 'Bronze'} — ${data.commissionRate || 10}%`;
+
+        if (document.getElementById('tierTargetText')) {
+          if (data.nextTierReq > 0) {
+            const remaining = data.nextTierReq - (data.activeReferrals || 0);
+            const nextRate = data.currentTier === 'Bronze' ? 20
+              : data.currentTier === 'Silver' ? 25 : 30;
+            document.getElementById('tierTargetText').innerHTML =
+              `You need <strong style="color:var(--text)">${Math.max(0, remaining)} more active referrals</strong> to reach <strong style="color:var(--purple)">${data.nextTierName} (${nextRate}%)</strong>.`;
+          } else {
+            document.getElementById('tierTargetText').innerHTML =
+              `<strong style="color:var(--purple)">You have reached the maximum Platinum Tier!</strong>`;
+          }
+        }
+
+        if (document.getElementById('tierBarFill')) {
+          let pct = 100;
+          if (data.nextTierReq > 0) {
+            const prevTarget = data.currentTier === 'Bronze' ? 0
+              : data.currentTier === 'Silver' ? 10 : 30;
+            const range = data.nextTierReq - prevTarget;
+            const progress = (data.activeReferrals - prevTarget) / range;
+            pct = Math.min(100, Math.max(0, progress * 100));
+            if (data.currentTier === 'Bronze') pct = pct * 0.33;
+            else if (data.currentTier === 'Silver') pct = 33.33 + (pct * 0.33);
+            else if (data.currentTier === 'Gold') pct = 66.66 + (pct * 0.33);
+          }
+          document.getElementById('tierBarFill').style.width = pct + '%';
+        }
+
+        // ── Tier dots ───────────────────────────────────────────────────────────
+        const tiers = ['Bronze', 'Silver', 'Gold', 'Platinum'];
+        const currentTierIdx = tiers.indexOf(data.currentTier || 'Bronze');
+        document.querySelectorAll('.tier-dot').forEach((dot, idx) => {
+          dot.className = 'tier-dot';
+          if (idx < currentTierIdx) dot.classList.add('reached');
+          else if (idx === currentTierIdx) dot.classList.add('current');
+        });
+        document.querySelectorAll('.tier-dot-label').forEach((label, idx) => {
+          if (idx === currentTierIdx) label.classList.add('active');
+          else label.classList.remove('active');
+        });
+        document.querySelectorAll('.tier-perk').forEach((perk, idx) => {
+          if (idx === currentTierIdx) perk.classList.add('active-tier');
+          else perk.classList.remove('active-tier');
+        });
+      }
+
+
+
+      function renderChart(monthlyEarnings) {
+    const chart = document.getElementById('miniChart');
+    if (!chart) return;
+ 
+    // monthlyEarnings = [{ month: "Oct", year: 2024, value: "0.10000000" }, ...]
+    const vals = monthlyEarnings.map(m => Number(m.value));
+    const max  = Math.max(...vals, 0.000001); // avoid div-by-zero when all zero
+ 
+    // Find current month index (last entry)
+    const lastIdx = monthlyEarnings.length - 1;
+ 
+    chart.innerHTML = monthlyEarnings.map((m, i) => {
+        const h       = Math.round((Number(m.value) / max) * 52);
+        const isCurrent = i === lastIdx;
+        return `<div class="mini-bar-wrap">
+            <div class="mini-bar" style="height:${Math.max(h, 2)}px;${isCurrent ? 'background:var(--cyan);opacity:1' : 'opacity:0.5'}"></div>
+            <div class="mini-bar-label">${m.month}</div>
+        </div>`;
+    }).join('');
+ 
+    // ── Update "This Month" and "vs Last Month" summary beneath the chart ──
+    const thisVal  = Number(monthlyEarnings[lastIdx]?.value   || 0);
+    const prevVal  = Number(monthlyEarnings[lastIdx - 1]?.value || 0);
+ 
+    // Format: show coin amount if bonusByCoin has 1 coin, else raw sum
+    const coinEntries = Object.entries(window._bonusByCoin || {});
+    const coinSuffix  = coinEntries.length === 1 ? ' ' + coinEntries[0][0] : '';
+ 
+    const thisLabel = thisVal > 0
+        ? '+' + thisVal.toFixed(8).replace(/\.?0+$/, '') + coinSuffix
+        : '0' + coinSuffix;
+ 
+    const changeEl   = document.querySelector('.mini-chart ~ div');
+    if (changeEl) {
+        const thisMonthEl  = changeEl.querySelector('div:first-child div:last-child');
+        const vsLastEl     = changeEl.querySelector('div:last-child div:last-child');
+ 
+        if (thisMonthEl) thisMonthEl.textContent = thisLabel;
+ 
+        if (vsLastEl) {
+            if (prevVal === 0 && thisVal === 0) {
+                vsLastEl.textContent = '—';
+                vsLastEl.style.color = 'var(--muted)';
+            } else if (prevVal === 0) {
+                vsLastEl.textContent = '▲ New';
+                vsLastEl.style.color = 'var(--emerald)';
+            } else {
+                const pct = ((thisVal - prevVal) / prevVal * 100).toFixed(1);
+                const up  = thisVal >= prevVal;
+                vsLastEl.textContent = (up ? '▲ ' : '▼ ') + Math.abs(pct) + '%';
+                vsLastEl.style.color = up ? 'var(--emerald)' : 'var(--red)';
+            }
+        }
+    }
+}
+
+      
+
+
+      const COIN_COLORS = {
+        BTC: '#f7931a', ETH: '#627eea', SOL: '#9945ff', USDT: '#26a17b',
+        BNB: '#fbbf24', XRP: '#00aae4', ADA: '#0033ad', DOT: '#e6007a',
+        MATIC: '#8247e5', AVAX: '#e84142', LINK: '#375bd2', UNI: '#ff007a',
+      };
+
+      function renderEarningsByCoin(bonusByCoin) {
+        const container = document.getElementById('earningsByCoin');
+        if (!container) return;
+
+        const entries = Object.entries(bonusByCoin || {});
+
+        if (entries.length === 0) {
+          container.innerHTML = `
+        <div style="text-align:center;color:var(--muted);padding:24px;font-size:13px">
+          No referral bonuses earned yet
+        </div>`;
+
+          const totalEl = document.getElementById('valTotalEarnings');
+          if (totalEl) totalEl.textContent = '0';
+          return;
+        }
+
+        container.innerHTML = entries.map(([coin, amount]) => {
+          const color = COIN_COLORS[coin.toUpperCase()] || 'var(--cyan)';
+          const formatted = Number(amount).toFixed(8).replace(/\.?0+$/, '');
+          return `
+        <div class="earnings-row">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="
+              width:28px;height:28px;border-radius:50%;
+              background:${color}22;border:1px solid ${color}55;
+              display:flex;align-items:center;justify-content:center;
+              font-size:9px;font-weight:800;color:${color};
+              flex-shrink:0">${coin.substring(0, 4)}</div>
+            <span class="earnings-label">${coin} Referral Bonus</span>
+          </div>
+          <span class="earnings-val positive">
+            ${formatted}
+            <span style="font-size:11px;color:var(--muted);margin-left:2px">${coin}</span>
+          </span>
+        </div>`;
+        }).join('');
+
+        // Update the Total row
+        const totalEl = document.getElementById('valTotalEarnings');
+        if (totalEl) {
+          if (entries.length === 1) {
+            const [coin, amt] = entries[0];
+            totalEl.textContent = `${Number(amt).toFixed(8).replace(/\.?0+$/, '')} ${coin}`;
+          } else {
+            // Multi-coin: show count (no fake USD conversion)
+            totalEl.textContent = `${entries.length} coins`;
+          }
+        }
+      }
+
+      function loadProfileData() {
+      fetch('/api/users/profile', { credentials: 'include' })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.data) {
+            const p = data.data;
+            const fullName = p.fullName || 'User';
+            const initial = fullName.charAt(0).toUpperCase();
+
+            const pName = document.getElementById('profileFullName');
+            if (pName) pName.textContent = fullName;
+
+            const pEmail = document.getElementById('profileEmail');
+            if (pEmail) pEmail.textContent = p.email || '';
+
+            const pStatus = document.getElementById('profileEmailStatus');
+            if (pStatus) pStatus.textContent = 'Verified';
+
+            const sName = document.getElementById('sidebarUserName');
+            if (sName) sName.textContent = fullName;
+
+            const sRole = document.getElementById('sidebarUserRole');
+            if (sRole) sRole.textContent = p.role === 'ADMIN' ? 'Admin Account' : 'Pro Account';
+
+            const sInit = document.getElementById('sidebarUserInitial');
+            if (sInit) sInit.textContent = initial;
+
+            const hInit = document.getElementById('headerUserInitial');
+            if (hInit) hInit.textContent = initial;
+          }
+        })
+        .catch(err => console.error('Error loading profile', err));
+    }
+
+    loadProfileData();
+
+
+
+
+      /* ─────────────────────────────────────────────────────────────────────────
+         loadReferralData — single API call, drives all three sections
+      ───────────────────────────────────────────────────────────────────────── */
+      async function loadReferralData() {
+        try {
+          const [statsRes, settingsRes] = await Promise.all([
+            fetch('/api/referral/stats', { credentials: 'include' }),
+            fetch('/api/referral/settings', { credentials: 'include' }),
+          ]);
+          const statsJson = await statsRes.json();
+          const settingsJson = await settingsRes.json();
+
+          const stats = statsJson.success ? statsJson.data : {};
+          const settings = settingsJson.success ? settingsJson.data : {};
+
+          // 1. Update header / tier / stat cards
+          updateHeader(stats, settings);
+
+          window._bonusByCoin = stats.bonusByCoin || {};   // needed by renderChart for coin suffix
+          renderChart(stats.monthlyEarnings || []);
+          
+
+          renderReferredUsers(stats.referredUsers || [], settings.rewardAmount || 0, settings.rewardCoinSymbol || 'USDT');
+          renderEarningsByCoin(stats.bonusByCoin || {});
+
+        } catch (e) {
+          console.error('Failed to load referral data:', e);
+        }
+      }
+
+      /* ── Shared actions (copy, share, toast) — unchanged ── */
+      window.copyCode = function () {
+        const code = document.getElementById('refCode').textContent;
+        navigator.clipboard.writeText(code).then(() => showToast('✓ Code copied!'));
+      };
+
+      window.shareLink = function (type) {
+        const code = document.getElementById('refCode').textContent;
+        const link = `${window.location.origin}/home/signup?ref=${code}`;
+        if (type === 'twitter') {
+          window.open(`https://twitter.com/intent/tweet?text=Join+Appex+Crypto+and+get+a+bonus!+Use+my+referral:+${encodeURIComponent(link)}`, '_blank');
+        } else {
+          navigator.clipboard.writeText(link).then(() => showToast('✓ Link copied!'));
+        }
+      };
+
+      function showToast(msg) {
+        const t = document.getElementById('toast');
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+      }
+
+      // Fix table header columns to match new data
+      const thead = document.querySelector('.ref-table thead tr');
+      if (thead) thead.innerHTML =
+        '<th>User</th><th>Joined</th><th>Reward Earned</th><th>KYC Status</th><th>Ref Code</th>';
+
+     
+      loadReferralData();
+
+    })();
+  </script>
+</body>
+
+</html>

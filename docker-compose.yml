@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MySQL database service
+  db:
+    image: mysql:8.0
+    container_name: Appex-trade-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: crypto_wallet
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-1234}
+      MYSQL_USER: ${DB_USER:-crypto_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-crypto_pass}
+    ports:
+      - "127.0.0.1:3306:3306" # Binds 3306 only to localhost for security, so it is not exposed publicly
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - kyc-uploads:/app/uploads/kyc
+    networks:
+      - nexus-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot application service
+  app:
+    image: nexus950/Appex-trade:latest
+    container_name: Appex-trade-app
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      # Inject DB credentials into Spring properties dynamically
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/crypto_wallet?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=${DB_USER:-crypto_user}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-crypto_pass}
+      # Production cookie and file upload settings
+      - SERVER_SERVLET_SESSION_COOKIE_SECURE=true # Set to true in prod behind Nginx SSL
+      - APP_KYC_UPLOAD_DIR=/app/uploads/kyc
+      # AES-256 master key for the data-encryption toggle (must be 64 hex chars)
+      - MASTER_KEY_SECRET=${MASTER_KEY_SECRET}
+    volumes:
+      - kyc-uploads:/app/uploads/kyc
+    networks:
+      - nexus-network
+
+# Persistent data storage volumes
+volumes:
+  mysql-data:
+    driver: local
+  kyc-uploads:
+    driver: local
+
+# Internal virtual bridge network
+networks:
+  nexus-network:
+    driver: bridge

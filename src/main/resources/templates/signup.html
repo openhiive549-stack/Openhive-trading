@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Create Account – Appex Crypto</title>
+    <link rel="stylesheet" th:href="@{/css/nexus-base.css}">
+    <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px; }
+    .glow1 { position:fixed; top:20%; left:20%; width:420px; height:420px; background:radial-gradient(circle,rgba(0,212,170,.1),transparent 70%); border-radius:50%; pointer-events:none; }
+    .glow2 { position:fixed; bottom:15%; right:15%; width:380px; height:380px; background:radial-gradient(circle,rgba(124,77,255,.09),transparent 70%); border-radius:50%; pointer-events:none; }
+    .auth-wrap { width:100%; max-width:460px; animation:fadeUp .5s ease both; }
+    .auth-header { text-align:center; margin-bottom:32px; }
+    .auth-header h2 { font-family:'Syne',sans-serif; font-size:26px; font-weight:800; margin-bottom:8px; }
+    .auth-header p  { color:var(--muted); }
+    .auth-card { background:var(--bg2); border:1px solid var(--border); border-radius:28px; padding:36px; box-shadow:0 24px 80px rgba(0,0,0,.4); }
+    .field      { margin-bottom:20px; }
+    .field label { display:block; font-size:13px; font-weight:600; color:#94A3B8; margin-bottom:8px; }
+    .auth-footer { text-align:center; margin-top:24px; color:var(--muted); font-size:14px; }
+    .auth-footer a { color:var(--cyan); font-weight:700; text-decoration:none; }
+    .back-link  { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:28px; color:var(--muted); font-size:13px; text-decoration:none; }
+    .back-link:hover { color:var(--text); }
+    .err-box { background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.25); border-radius:12px; padding:12px 16px; color:var(--red); font-size:13px; margin-bottom:18px; display:none; }
+  </style>
+</head>
+<body>
+<div class="glow1"></div><div class="glow2"></div>
+
+<div class="auth-wrap">
+    <div class="auth-header">
+        <a href="/home/landing_page" class="logo" style="justify-content:center;margin-bottom:24px;">
+            <div class="logo-icon"></div>
+            <span class="logo-text">Appex <span>Crypto</span></span>
+        </a>
+        <h2>Create Account</h2>
+        <p>Start your trading journey today</p>
+    </div>
+
+    <div class="auth-card">
+        <div class="err-box" id="errBox"></div>
+        <form id="signupForm">
+            <div class="field">
+                <label>Full Name</label>
+                <div class="inp-icon-wrap">
+                    <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                    <input class="inp" type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+            </div>
+            <div class="field">
+                <label>Email Address</label>
+                <div class="inp-icon-wrap">
+                    <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                    <input class="inp" type="email" id="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <div class="inp-icon-wrap">
+                    <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                    <input class="inp" type="password" id="password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+            </div>
+            <div class="field">
+                <label>Invitation Code <span style="color:var(--muted);font-weight:400;">(Optional)</span></label>
+                <div class="inp-icon-wrap">
+                    <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"/><line x1="9" y1="12" x2="15" y2="12"/></svg></span>
+                    <input class="inp" type="text" id="refCode" placeholder="Enter invitation code if you have one">
+                </div>
+            </div>
+            <button type="submit" class="btn-primary full" id="submitBtn">Create Account</button>
+        </form>
+        <div class="auth-footer"><p>Already have an account? <a href="/home/signin">Sign In</a></p></div>
+    </div>
+
+    <a href="/home/landing_page" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to Home
+    </a>
+</div>
+
+<script th:src="@{/js/nexus-app.js}"></script>
+<script>
+document.getElementById('signupForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('errBox');
+  btn.textContent = 'Creating account...'; btn.disabled = true; err.style.display='none';
+  try {
+    const user = await Auth.register(
+      document.getElementById('fullName').value,
+      document.getElementById('email').value,
+      document.getElementById('password').value,
+      document.getElementById('refCode').value
+    );
+    // Registration successful: Redirect to sign-in page with a success message
+    window.location.href = '/home/signin?registered=true';
+  } catch(ex) {
+    err.textContent = ex.message; err.style.display='block';
+    btn.textContent = 'Create Account'; btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

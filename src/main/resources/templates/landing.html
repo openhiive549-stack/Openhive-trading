@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trade Smarter, Faster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" th:href="@{/css/nexus-base.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --bg2:       #161b27;
+      --bg3:       #0a0d13;
+      --cyan:      #00D4AA;
+      --blue:      #7C4DFF;
+      --emerald:   #00D4AA;
+      --red:       #F87171;
+      --text:      #E8EAF6;
+      --muted:     #5f6a8a;
+      --border:    rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: rgba(0,212,170,.25); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg3); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,212,170,.3); border-radius: 4px; }
+
+    /* ═══════════════════════════════════════ NAV ══════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,17,23,.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: #fff; }
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px; font-weight: 800; color: var(--text);
+    }
+    .logo-text span { color: var(--cyan); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted); font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn-ghost {
+      padding: 7px 16px; border-radius: 8px;
+      background: transparent; border: none; cursor: pointer;
+      color: var(--text); font-size: 14px; font-weight: 600;
+      font-family: inherit; transition: color .2s;
+    }
+    .btn-ghost:hover { color: var(--cyan); }
+
+    .btn-primary {
+      padding: 8px 20px; border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border: none; cursor: pointer;
+      color: #fff; font-size: 14px; font-weight: 700;
+      font-family: inherit;
+      box-shadow: 0 0 0 rgba(0,212,170,0);
+      transition: box-shadow .3s, transform .2s;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 24px rgba(0,212,170,.45);
+      transform: scale(1.03);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: absolute; top: 64px; left: 0; right: 0;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 24px 28px;
+      flex-direction: column; gap: 16px;
+      animation: slideDown .2s ease;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px;
+      transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--text); }
+    .mobile-menu .mob-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .mobile-menu .mob-btns button {
+      width: 100%; padding: 12px; border-radius: 14px;
+      font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+    }
+    .mob-signin {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .mob-signup {
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border: none; color: #fff;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════ HERO ══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      padding: 152px 24px 100px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 520px;
+      background: radial-gradient(ellipse at center, rgba(0,212,170,.12) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: .7; transform: translateX(-50%) scale(1); }
+      50%      { opacity: 1;  transform: translateX(-50%) scale(1.05); }
+    }
+    .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,212,170,.08);
+      border: 1px solid rgba(0,212,170,.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 12px; font-weight: 700; color: var(--cyan);
+      letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--cyan);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.2; } }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px,6vw,68px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 24px;
+      animation: fadeUp .6s .1s ease both;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, var(--cyan) 0%, #6EE7B7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      max-width: 600px; margin: 0 auto 44px;
+      color: var(--muted); font-size: clamp(15px, 2vw, 18px); line-height: 1.7;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
+      margin-bottom: 80px;
+      animation: fadeUp .6s .3s ease both;
+    }
+    .btn-lg {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 14px;
+      font-family: inherit; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+    }
+    .btn-lg.primary {
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border: none; color: #fff;
+      box-shadow: 0 8px 32px rgba(0,212,170,.2);
+    }
+    .btn-lg.primary:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 40px rgba(0,212,170,.4);
+    }
+    .btn-lg.secondary {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-lg.secondary:hover { background: rgba(255,255,255,.10); }
+
+    /* Quick features */
+    .quick-features {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+      max-width: 900px; margin: 0 auto;
+      animation: fadeUp .6s .45s ease both;
+    }
+    .qf-item { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+    .qf-icon {
+      width: 64px; height: 64px; border-radius: 20px;
+      background: rgba(255,255,255,.04);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      transition: background .2s, transform .2s;
+    }
+    .qf-item:hover .qf-icon { background: rgba(255,255,255,.09); transform: translateY(-4px); }
+    .qf-icon svg { width: 32px; height: 32px; }
+    .qf-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .qf-desc  { color: var(--muted); font-size: 13px; }
+
+    /* ═════════════════════════════════════ WHY US ══════════════════════════════════════ */
+    .section {
+      padding: 96px 24px;
+      overflow-x: hidden;
+    }
+    .section-dark { background: var(--bg2); }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px,4vw,42px);
+      font-weight: 800; margin-bottom: 12px;
+    }
+    .section-header p { color: var(--muted); font-size: 17px; }
+
+    .cards-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+
+    .card {
+      padding: 40px 32px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(0,212,170,.35);
+      box-shadow: 0 16px 48px rgba(0,212,170,.08);
+    }
+    .card-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px;
+    }
+    .card-icon svg { width: 26px; height: 26px; }
+    .card h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+    .card p  { color: var(--muted); line-height: 1.7; }
+
+    /* ═════════════════════════════════════ STATS ══════════════════════════════════════ */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+      border: 1px solid var(--border); border-radius: 24px; overflow: hidden;
+    }
+    .stat-cell {
+      padding: 48px 32px; text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell:hover { background: rgba(0,212,170,.04); }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px,3.5vw,48px);
+      font-weight: 800; color: var(--cyan);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .stat-label { color: var(--muted); font-weight: 500; font-size: 14px; }
+
+    /* ══════════════════════════════════ TICKER ════════════════════════════════════════ */
+    .ticker-wrap {
+      overflow: hidden;
+      background: rgba(255,255,255,.025);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: ticker 38s linear infinite;
+      width: max-content;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 0 32px; border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .ticker-item img { width: 22px; height: 22px; border-radius: 50%; }
+    .ticker-sym { font-weight: 700; font-size: 13px; }
+    .ticker-price { font-size: 13px; color: var(--muted); }
+    .ticker-change { font-size: 12px; font-weight: 700; }
+    .up   { color: var(--emerald); }
+    .down { color: var(--red); }
+
+    /* ════════════════════════════════════ CTA ═════════════════════════════════════════ */
+    .cta-section {
+      position: relative; overflow: hidden;
+      padding: 120px 24px; text-align: center;
+    }
+    .cta-glow {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,212,170,.05) 50%, transparent 100%);
+      pointer-events: none;
+    }
+    .cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .cta-inner h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px,4vw,48px);
+      font-weight: 800; margin-bottom: 18px;
+    }
+    .cta-inner p {
+      color: var(--muted); font-size: 18px; margin-bottom: 44px;
+    }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 40px; border-radius: 20px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border: none; color: #fff;
+      font-family: inherit; font-size: 17px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 12px 48px rgba(0,212,170,.35);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 64px rgba(0,212,170,.55);
+    }
+
+    /* ═════════════════════════════════════ FOOTER ══════════════════════════════════════ */
+    footer {
+      background: var(--bg3);
+      border-top: 1px solid var(--border);
+      padding: 80px 24px 36px;
+    }
+    .footer-grid {
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 56px;
+      margin-bottom: 64px;
+    }
+    .footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.75; margin: 18px 0 24px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+      text-decoration: none;
+    }
+    .social-btn:hover { background: rgba(255,255,255,.1); color: var(--text); border-color: rgba(255,255,255,.15); }
+    .social-btn svg { width: 18px; height: 18px; }
+
+    .footer-col h4 { font-weight: 700; font-size: 14px; margin-bottom: 22px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .footer-col a { color: var(--muted); font-size: 14px; text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--cyan); }
+
+    .footer-bottom {
+      max-width: 1280px; margin: 0 auto;
+      padding-top: 28px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 14px;
+      color: var(--muted); font-size: 12px;
+    }
+    .footer-bottom a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-bottom a:hover { color: var(--text); }
+    .footer-bottom-links { display: flex; gap: 24px; }
+
+    /* ════════════════════════════════════ UTILS ═══════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════ RESPONSIVE ════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .cards-3 { grid-template-columns: 1fr 1fr; gap: 20px; }
+    }
+    /* Tablet 2-col for cards-3 */
+    @media (min-width: 640px) and (max-width: 1024px) {
+      .cards-3 { grid-template-columns: 1fr 1fr; gap: 20px; }
+    }
+    @media (max-width: 639px) {
+      .cards-3 { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions { display: none; }
+      .hamburger { display: flex; }
+      .quick-features { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .stat-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-cell:nth-child(odd) { border-right: 1px solid var(--border); }
+      .stat-cell:last-child { border-bottom: none; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 120px 16px 80px; }
+      .section { padding: 64px 16px; }
+      .quick-features { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn-lg { width: 100%; justify-content: center; }
+      .stat-cell { padding: 28px 16px; }
+      .footer-bottom-links { flex-wrap: wrap; gap: 12px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────────────────── NAVBAR ─────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <span class="logo-text">Appex <span>Crypto</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#why-us">Why Us</a></li>
+      <li><a href="#stats">Market</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="location.href='/home/signin'">Sign In</button>
+      <button class="btn-primary" onclick="location.href='/home/signup'">Get Started</button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#why-us">Why Us</a>
+    <a href="#stats">Market</a>
+    <div class="mob-btns">
+      <button class="mob-signin" onclick="location.href='/home/signin'">Sign In</button>
+      <button class="mob-signup" onclick="location.href='/home/signup'">Get Started</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ─────────────────────────────── HERO ─────────────────────────────── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Live Trading · 500+ Coins Available
+    </div>
+
+    <h1>
+      Trade Smarter, Faster<br>
+      <span class="gradient-text">Crypto Trading</span>
+    </h1>
+
+    <p class="hero-sub">
+      Trade Bitcoin, Ethereum, and 500+ cryptocurrencies with confidence.
+      Join 120,000+ traders using professional tools and bank-level security.
+    </p>
+
+    <div class="hero-ctas">
+      <button class="btn-lg primary" onclick="location.href='/home/signup'">
+        Start Trading Now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn-lg secondary" onclick="location.href='/home/signin'">Sign In</button>
+    </div>
+
+    <!-- Quick features row -->
+    <div class="quick-features">
+      <div class="qf-item">
+        <div class="qf-icon" style="color:#FBBF24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="qf-title">Lightning Fast</div>
+        <div class="qf-desc">Instant execution</div>
+      </div>
+      <div class="qf-item">
+        <div class="qf-icon" style="color:#60A5FA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="qf-title">Bank-Level Security</div>
+        <div class="qf-desc">Your assets protected</div>
+      </div>
+      <div class="qf-item">
+        <div class="qf-icon" style="color:#00D4AA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="4" height="18" rx="1"/><rect x="9" y="8" width="4" height="13" rx="1"/><rect x="16" y="5" width="4" height="16" rx="1"/></svg>
+        </div>
+        <div class="qf-title">Advanced Charts</div>
+        <div class="qf-desc">Professional tools</div>
+      </div>
+      <div class="qf-item">
+        <div class="qf-icon" style="color:#00D4AA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="qf-title">24/7 Support</div>
+        <div class="qf-desc">Always here for you</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────── LIVE TICKER ─────────────────────────────── -->
+<div class="ticker-wrap" id="features">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ─────────────────────────────── WHY US ─────────────────────────────── -->
+<section class="section section-dark" id="why-us">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <h2>Why Choose Appex Crypto?</h2>
+      <p>Everything you need to trade crypto confidently</p>
+    </div>
+    <div class="cards-3">
+      <div class="card fade-up">
+        <div class="card-icon" style="background:rgba(251,191,36,.1); color:#FBBF24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>Real-Time Trading</h3>
+        <p>Execute trades instantly with live market data and professional-grade charts powered by advanced algorithms.</p>
+      </div>
+      <div class="card fade-up" style="transition-delay:.1s">
+        <div class="card-icon" style="background:rgba(96,165,250,.1); color:#60A5FA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Secure &amp; Compliant</h3>
+        <p>Bank-level encryption and full regulatory compliance to keep your funds and personal data safe at all times.</p>
+      </div>
+      <div class="card fade-up" style="transition-delay:.2s">
+        <div class="card-icon" style="background:rgba(0,212,170,.1); color:#00D4AA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg>
+        </div>
+        <h3>Low Fees</h3>
+        <p>Competitive trading fees with no hidden charges. Trade more, pay less — your profits stay where they belong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────── STATS ─────────────────────────────── -->
+<section class="section" id="stats">
+  <div class="section-inner">
+    <div class="stats-grid fade-up">
+      <div class="stat-cell">
+        <span class="stat-num" data-target="120">0</span>
+        <span class="stat-label">Active Traders (K+)</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num" style="font-size:clamp(28px,3vw,44px)">$2.5B+</span>
+        <span class="stat-label">Trading Volume</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num" data-target="500">0</span>
+        <span class="stat-label">Cryptocurrencies (K+)</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">99.9%</span>
+        <span class="stat-label">Uptime</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────── CTA ─────────────────────────────── -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-inner fade-up">
+    <h2>Ready to Start Trading?</h2>
+    <p>Join thousands of traders making smarter crypto investments every day.</p>
+    <button class="btn-cta" onclick="location.href='/home/signup'">
+      Create Free Account →
+    </button>
+  </div>
+</section>
+
+<!-- ─────────────────────────────── FOOTER ─────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="logo" href="#">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="logo-text">Appex <span>Crypto</span></span>
+      </a>
+      <p>The most trusted platform for trading cryptocurrencies. Secure, fast, and professional.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#">Exchange</a></li>
+        <li><a href="#">Wallet</a></li>
+        <li><a href="#">Fees</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">API Docs</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Appex Crypto Exchange. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════ JS ══════════════════════════════════ -->
+<script>
+/* ── Hamburger ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+// close on link click
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+/* ── Nav scroll shadow ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.boxShadow =
+    window.scrollY > 20 ? '0 4px 32px rgba(0,0,0,.4)' : 'none';
+});
+
+/* ── Ticker ── */
+let COINS = [];
+
+const fallbackIcon = sym => `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><rect width='48' height='48' rx='24' fill='%231a2236'/><text x='24' y='31' text-anchor='middle' fill='%2322d3ee' font-size='16' font-family='sans-serif' font-weight='bold'>${sym[0]}</text></svg>`;
+
+function buildTicker() {
+  const track = document.getElementById('tickerTrack');
+  if (!COINS.length) return;
+  const items = [...COINS, ...COINS]; // duplicate for seamless loop
+  track.innerHTML = items.map(c => `
+    <div class="ticker-item">
+      <img src="${c.icon}" referrerpolicy="no-referrer" alt="${c.sym}" onerror="this.src='${fallbackIcon(c.sym)}'">
+      <span class="ticker-sym">${c.sym}/USDT</span>
+      <span class="ticker-price" id="tp-${c.sym}">${c.price}</span>
+      <span class="ticker-change ${c.up ? 'up' : 'down'}" id="tc-${c.sym}">${c.change}</span>
+    </div>
+  `).join('');
+}
+
+async function fetchTickerPrices() {
+  try {
+    const res = await fetch('/api/crypto/prices', { credentials: 'same-origin' });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json && json.success && json.data) {
+      COINS = json.data.slice(0, 10).map(d => ({
+        sym: d.symbol.toUpperCase(),
+        price: '$' + (d.current_price < 1 ? (d.current_price || 0).toFixed(4) : (d.current_price || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })),
+        change: ((d.price_change_percentage_24h || 0) >= 0 ? '+' : '') + (d.price_change_percentage_24h || 0).toFixed(2) + '%',
+        up: (d.price_change_percentage_24h || 0) >= 0,
+        icon: d.image
+      }));
+      buildTicker();
+    }
+  } catch (e) {
+    console.error('Ticker fetch error:', e);
+  }
+}
+
+fetchTickerPrices();
+setInterval(fetchTickerPrices, 300000); // refresh every 5 min
+
+/* ── Scroll animations ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+/* ── Counter animation ── */
+function animateCounter(el, target, suffix = '') {
+  let start = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start) + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 20);
+}
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.currentTarget.querySelectorAll('[data-target]').forEach(el => {
+        animateCounter(el, parseInt(el.dataset.target), 'K+');
+      });
+      statsObserver.unobserve(e.currentTarget);
+    }
+  });
+}, { threshold: 0.3 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObserver.observe(statsGrid);
+</script>
+</body>
+</html>
