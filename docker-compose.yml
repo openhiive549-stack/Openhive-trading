@@ -4,7 +4,7 @@ services:
   # MySQL database service
   db:
     image: mysql:8.0
-    container_name: Appex-trade-db
+    container_name: Openhive-trade-db
     restart: always
     environment:
       MYSQL_DATABASE: crypto_wallet
@@ -26,8 +26,8 @@ services:
 
   # Spring Boot application service
   app:
-    image: nexus950/Appex-trade:latest
-    container_name: Appex-trade-app
+    image: nexus950/Openhive-trade:latest
+    container_name: Openhive-trade-app
     restart: always
     depends_on:
       db:

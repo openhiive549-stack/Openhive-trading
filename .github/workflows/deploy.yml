@@ -7,7 +7,7 @@ on:
       - master
 
 env:
-  IMAGE_NAME: appex55/appex-trade
+  IMAGE_NAME: Openhive55/Openhive-trade
 
 jobs:
   # Job 1: Build the Maven application
@@ -77,7 +77,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
           source: "docker-compose.yml"
-          target: "~/Appex-trade/"
+          target: "~/Openhive-trade/"
 
       - name: SSH Command to Restart Application Stack
         uses: appleboy/ssh-action@v1.0.3
@@ -87,8 +87,8 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT }}
           script: |
-            mkdir -p ~/Appex-trade
-            cd ~/Appex-trade
+            mkdir -p ~/Openhive-trade
+            cd ~/Openhive-trade
 
             # 1. Create .env if it doesn't exist
             if [ ! -f .env ]; then

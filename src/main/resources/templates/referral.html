@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Referral – Appex Crypto</title>
+  <title>Referral – Openhive Crypto</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
@@ -1016,7 +1016,7 @@
   <aside class="sidebar">
     <a href="/home/dashboard" class="sidebar-logo">
       
-      Appex Crypto
+      Openhive Crypto
     </a>
     <nav class="sidebar-nav">
       <a href="/home/dashboard" class="sidebar-item">
@@ -1087,7 +1087,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
       </svg>
-      Appex Crypto
+      Openhive Crypto
     </a>
     <div class="header-greeting">Referral Program</div>
     <div style="flex:1;display:flex;justify-content:center;">
@@ -1121,7 +1121,7 @@
       <div class="referral-hero">
         <div class="hero-label">✦ Referral Program</div>
         <h1 class="hero-title">Earn up to <span>30%</span> commission<br>on every trade</h1>
-        <p class="hero-sub">Invite friends to Appex Crypto and earn a percentage of their trading fees — forever. The
+        <p class="hero-sub">Invite friends to Openhive Crypto and earn a percentage of their trading fees — forever. The
           more they trade, the more you earn.</p>
         <div class="ref-code-wrap">
           <div class="ref-code-box">
@@ -1526,7 +1526,7 @@
 
         // Hero subtitle
         const sub = document.querySelector('.hero-sub');
-        if (sub) sub.textContent = `Invite friends to Appex Crypto and earn 10% of their first deposit — credited automatically to your wallet!`;
+        if (sub) sub.textContent = `Invite friends to Openhive Crypto and earn 10% of their first deposit — credited automatically to your wallet!`;
 
         // How it Works step 3
         const step3 = document.querySelector('.how-card:nth-child(3) .how-desc');
@@ -1821,7 +1821,7 @@
         const code = document.getElementById('refCode').textContent;
         const link = `${window.location.origin}/home/signup?ref=${code}`;
         if (type === 'twitter') {
-          window.open(`https://twitter.com/intent/tweet?text=Join+Appex+Crypto+and+get+a+bonus!+Use+my+referral:+${encodeURIComponent(link)}`, '_blank');
+          window.open(`https://twitter.com/intent/tweet?text=Join+Openhive+Crypto+and+get+a+bonus!+Use+my+referral:+${encodeURIComponent(link)}`, '_blank');
         } else {
           navigator.clipboard.writeText(link).then(() => showToast('✓ Link copied!'));
         }

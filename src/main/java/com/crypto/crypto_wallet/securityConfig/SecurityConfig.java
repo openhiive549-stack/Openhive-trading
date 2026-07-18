@@ -160,8 +160,8 @@ public class SecurityConfig {
                 "http://127.0.0.1:*",
                 "https://*.ngrok-free.app",
                 "https://*.ngrok-free.dev",
-                "https://Appex-trade.net",
-                "https://www.Appex-trade.net"
+                "https://Openhive-trade.net",
+                "https://www.Openhive-trade.net"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
