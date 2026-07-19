@@ -26,7 +26,7 @@ services:
 
   # Spring Boot application service
   app:
-    image: nexus950/Openhive-trade:latest
+    image: openhiive/openhive-trade:latest
     container_name: Openhive-trade-app
     restart: always
     depends_on:
