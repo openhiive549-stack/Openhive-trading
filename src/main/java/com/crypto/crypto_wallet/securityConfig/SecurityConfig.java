@@ -82,6 +82,7 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/logout",
                                 "/api/crypto/**",
+                                "/",
                                 "/home/landing_page",
                                 "/home/signin",
                                 "/home/signup",
@@ -158,10 +159,9 @@ public class SecurityConfig {
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
-                "https://*.ngrok-free.app",
-                "https://*.ngrok-free.dev",
-                "https://Openhive-trade.net",
-                "https://www.Openhive-trade.net"
+                "https://openhivetrading.com/",
+                "https://openhivetrading.net",
+                "https://www.openhivetrading.net"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
