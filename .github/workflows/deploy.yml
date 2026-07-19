@@ -59,12 +59,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Job 3: Deploy to VPS via SSH (disabled until new server is ready)
+  # Job 3: Deploy to VPS via SSH
   deploy:
     name: Deploy to VPS via SSH
     needs: build-and-push-docker
     runs-on: ubuntu-latest
-    if: false  # TODO: Remove this line when new server is ready
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
