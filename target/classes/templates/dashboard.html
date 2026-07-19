@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard – Openhive Crypto</title>
+<title>Dashboard ï¿½ Openhive Crypto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -427,7 +427,7 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
   width: 100%; padding: 11px 14px;
   background: #f8f8fc;
   border: 1px solid var(--border);
-  border-radius: 12px; color: var(--text);
+  border-radius: 12px; color: #1a1f2e;
   font-family: var(--font); font-size: 13px;
   outline: none; appearance: none;
   transition: border-color .18s, box-shadow .18s;
@@ -439,7 +439,7 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
 .modal-select:focus, .modal-input:focus {
   border-color: rgba(249,115,22,.38); box-shadow: 0 0 0 2px rgba(249,115,22,.07);
 }
-.modal-select option { background: #ffffff; color: var(--text); }
+.modal-select option { background: #ffffff; color: #1a1f2e; }
 .input-hint { font-size: 10.5px; color: var(--muted); margin-top: 4px; }
 .modal-divider { height: 1px; background: var(--border); margin: 16px 0; }
 .modal-address-box {
@@ -632,7 +632,7 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
   <div style="flex:1;display:flex;justify-content:center;">
     <div class="header-search">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      Search coins, markets…
+      Search coins, marketsï¿½
     </div>
   </div>
   <div class="header-actions">
@@ -673,18 +673,18 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
         <div class="stats-col">
           <div class="stat-card">
             <div class="stat-label">24h P&amp;L</div>
-            <div class="stat-value" id="pnlVal" style="color:#4ade80">–</div>
-            <div class="stat-sub" id="pnlPct" style="color:#4ade80">–</div>
+            <div class="stat-value" id="pnlVal" style="color:#4ade80">ï¿½</div>
+            <div class="stat-sub" id="pnlPct" style="color:#4ade80">ï¿½</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">BTC Price</div>
-            <div class="stat-value" id="statBtcPrice" style="color:#f97316">–</div>
-            <div class="stat-sub" id="statBtcChg" style="color:#4ade80">–</div>
+            <div class="stat-value" id="statBtcPrice" style="color:#f97316">ï¿½</div>
+            <div class="stat-sub" id="statBtcChg" style="color:#4ade80">ï¿½</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">ETH Price</div>
-            <div class="stat-value" id="statEthPrice">–</div>
-            <div class="stat-sub" id="statEthChg" style="color:#4ade80">–</div>
+            <div class="stat-value" id="statEthPrice">ï¿½</div>
+            <div class="stat-sub" id="statEthChg" style="color:#4ade80">ï¿½</div>
           </div>
         </div>
       </div>
@@ -721,7 +721,7 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
           <div>
             <div class="btc-pair">BTC / USDT</div>
             <div class="btc-price" id="btcPrice">$--</div>
-            <div class="btc-sub">Bitcoin • 24h</div>
+            <div class="btc-sub">Bitcoin ï¿½ 24h</div>
           </div>
           <span class="badge" style="background:rgba(255,255,255,.05);color:var(--text)" id="btcBadge">--%</span>
         </div>
@@ -764,14 +764,14 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
     <div class="modal-field">
       <label class="modal-label" for="depositCoin">Select Coin</label>
       <select class="modal-select" id="depositCoin" onchange="onCoinChange()">
-        <option value="">Loading coins…</option>
+        <option value="">Loading coinsï¿½</option>
       </select>
       <div class="input-hint" id="depositNetworkHint" style="margin-top:5px;"></div>
     </div>
     <div class="modal-field">
       <label class="modal-label">Your Deposit Address</label>
       <div class="modal-address-box">
-        <span class="modal-address-text" id="depositAddr">Loading…</span>
+        <span class="modal-address-text" id="depositAddr">Loadingï¿½</span>
         <button class="copy-btn" onclick="copyAddress()" id="copyAddrBtn">Copy</button>
       </div>
     </div>
@@ -783,7 +783,7 @@ a.sidebar-profile { -webkit-tap-highlight-color: transparent; }
     </div>
     <div class="modal-field">
       <label class="modal-label" for="depositTxHash">Transaction Hash <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
-      <input class="modal-input" type="text" id="depositTxHash" placeholder="0x…">
+      <input class="modal-input" type="text" id="depositTxHash" placeholder="0xï¿½">
     </div>
     <button class="btn-deposit" id="depositSubmitBtn" onclick="submitDeposit()">
       <span id="depositBtnLabel">Confirm Deposit</span>
@@ -1160,7 +1160,7 @@ async function loadDepositAddresses() {
   _depositAddressLoading = true;
 
   const sel = document.getElementById('depositCoin');
-  if (sel) sel.innerHTML = '<option value="">Loading…</option>';
+  if (sel) sel.innerHTML = '<option value="">Loadingï¿½</option>';
 
   try {
     const res  = await fetch('/api/deposit-addresses', { credentials: 'same-origin' });
@@ -1187,7 +1187,7 @@ async function loadDepositAddresses() {
     _depositAddressLoaded = true;
   } catch (e) {
     console.warn('[Deposit] Failed to load deposit addresses:', e.message);
-    if (sel) sel.innerHTML = '<option value="">Failed to load — contact support</option>';
+    if (sel) sel.innerHTML = '<option value="">Failed to load ï¿½ contact support</option>';
     _depositAddressLoaded = false;
   } finally {
     _depositAddressLoading = false;
@@ -1198,7 +1198,7 @@ function onCoinChange() {
   const sym    = (document.getElementById('depositCoin').value || '').trim().toUpperCase();
   const addrEl = document.getElementById('depositAddr');
   const hint   = document.getElementById('depositNetworkHint');
-  if (!sym) { if (addrEl) addrEl.textContent = '—'; if (hint) hint.textContent = ''; return; }
+  if (!sym) { if (addrEl) addrEl.textContent = 'ï¿½'; if (hint) hint.textContent = ''; return; }
   const entry = _depositAddressMap[sym];
   if (entry && entry.address) {
     if (addrEl) addrEl.textContent = entry.address;
@@ -1229,7 +1229,7 @@ function closeDeposit() {
 }
 function copyAddress() {
   const addr = (document.getElementById('depositAddr').textContent || '').trim();
-  if (!addr || addr === '—') { showToast('No address to copy', 'error'); return; }
+  if (!addr || addr === 'ï¿½') { showToast('No address to copy', 'error'); return; }
   navigator.clipboard.writeText(addr)
     .then(() => {
       const btn = document.getElementById('copyAddrBtn');
@@ -1267,7 +1267,7 @@ function submitDeposit() {
   .then(async res => { const json = await res.json(); if (!res.ok || !json.success) throw new Error(json.message || 'Request failed'); return json; })
   .then(() => {
     setDepositLoading(false);
-    document.getElementById('depositBtnLabel').textContent = '? Pending – Awaiting Approval';
+    document.getElementById('depositBtnLabel').textContent = '? Pending ï¿½ Awaiting Approval';
     showToast('Deposit submitted! Awaiting admin approval.', 'success');
     setTimeout(() => { closeDeposit(); refreshDashboard(); }, 2500);
   })
@@ -1320,7 +1320,7 @@ function submitWithdraw() {
   .then(async res => { const json = await res.json(); if (!res.ok || !json.success) throw new Error(json.message || 'Request failed'); return json; })
   .then(() => {
     setWithdrawLoading(false);
-    document.getElementById('withdrawBtnLabel').textContent = '? Pending – Awaiting Approval';
+    document.getElementById('withdrawBtnLabel').textContent = '? Pending ï¿½ Awaiting Approval';
     showToast('Withdrawal submitted! Awaiting admin approval.', 'success');
     setTimeout(() => { closeWithdraw(); refreshDashboard(); }, 2500);
   })
