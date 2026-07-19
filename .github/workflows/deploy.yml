@@ -7,13 +7,15 @@ on:
       - master
 
 env:
-  IMAGE_NAME: Openhive55/Openhive-trade
+  # FIXED: Changed namespace to match your actual lowercase Docker Hub account
+  IMAGE_NAME: openhiive/openhive-trade
 
 jobs:
-  # Job 1: Build the Maven application
-  build-and-test:
-    name: Build & Test Maven Project
+  # Combined Job: Build application and immediately package into Docker
+  build-push-deploy:
+    name: Build, Push & Deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -30,16 +32,6 @@ jobs:
 
       - name: Compile and Package (Skip Tests for Fast Deploy)
         run: ./mvnw clean package -DskipTests
-
-  # Job 2: Build and push Docker image to Docker Hub
-  build-and-push-docker:
-    name: Build & Push Docker Image
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -59,15 +51,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Job 3: Deploy to VPS via SSH
-  deploy:
-    name: Deploy to VPS via SSH
-    needs: build-and-push-docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
+      # --- Deployment Steps ---
       - name: Copy docker-compose.yml to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
